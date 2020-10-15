@@ -9,6 +9,6 @@ export const axiosWithAuth = () => {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`,
         },
-        baseURL: "https://kickstarter-success-api.herokuapp.com/",
+        baseURL: "https://kickstarter-success-api.herokuapp.com",
     });
 };
