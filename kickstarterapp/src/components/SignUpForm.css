@@ -1,4 +1,4 @@
-.Login__Component {
+.SignUp__Component {
     margin: 60px auto;
     display: flex;
     flex-direction: column;
@@ -10,11 +10,11 @@
     font-family: "Maison Neue Book", "Helvetica Neue", Helvetica, Arial, "Liberation Sans", FreeSans, sans-serif;
 }
 
-.Login__InnerBox {
+.SignUp__InnerBox {
     width: 337px;
 }
 
-.Login__Form {
+.SignUp__Form {
     display: flex;
     flex-direction: column;
 }
@@ -50,7 +50,7 @@ input:focus {
 .Submit__Btn {
     font-size: .9rem;
     margin-top: 18px;
-    margin-bottom: 0;
+    margin-bottom: 33px;
     height: 40px;
     color: white;
     background-color: #028858;
@@ -70,10 +70,11 @@ a:hover {
     color: #282828;
 }
 
-.SignUp__Content {
+.Login__Content {
     width: 397px;
-    margin-bottom: 24px;
-    padding-top: 24px;
+    margin-top: 24px;
+    padding-bottom: 26px;
     text-align: center;
-    border-top: 1px solid #DCDEDD;
+    border-bottom: 1px solid #F1EEEA;
+    background-color: rgba(241, 238, 234, 0.2);
 }
