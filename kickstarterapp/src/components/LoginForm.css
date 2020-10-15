@@ -1,0 +1,79 @@
+.Login__Component {
+    margin: 60px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    width: 397px;
+    border-radius: 5px;
+    border: 1px solid #DCDEDD;
+    font-family: "Maison Neue Book", "Helvetica Neue", Helvetica, Arial, "Liberation Sans", FreeSans, sans-serif;
+}
+
+.Login__InnerBox {
+    width: 337px;
+}
+
+.Login__Form {
+    display: flex;
+    flex-direction: column;
+}
+
+.Component__Title {
+    margin-top: 33px;
+    font-size: 1.8rem;
+    font-weight: 100;
+}
+
+input {
+    height: 40px;
+    line-height: 1;
+    margin-top: 18px;
+    padding-left: 10px;
+}
+
+input:focus {
+    outline-color: #028858;
+}
+
+.RememberMe__Checkbox {
+    margin-bottom: 24px;
+    font-size: .9rem;
+}
+
+.RememberMe__Checkbox input {
+    height: auto;
+    margin-top: 0;
+    margin-right: 10px;
+}
+
+.Submit__Btn {
+    font-size: .9rem;
+    margin-top: 18px;
+    margin-bottom: 0;
+    height: 40px;
+    color: white;
+    background-color: #028858;
+    border: none;
+}
+
+.Submit__Btn:hover {
+    background-color: #037362;
+}
+
+a {
+    color: #2752ff;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #282828;
+}
+
+.SignUp__Content {
+    width: 397px;
+    margin-bottom: 24px;
+    padding-top: 24px;
+    text-align: center;
+    border-top: 1px solid #DCDEDD;
+}
