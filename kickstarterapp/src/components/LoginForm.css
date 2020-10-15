@@ -1,0 +1,18 @@
+.Login__Component {
+    margin: 60px auto;
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    width: 397px;
+    border-radius: 5px;
+    border: 0.1rem solid #DCDEDD;
+}
+
+.Login__InnerBox {
+    width: 337px;
+}
+
+.Login__Form {
+    display: flex;
+    flex-direction: column;
+}

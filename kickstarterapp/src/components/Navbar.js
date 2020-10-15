@@ -11,7 +11,7 @@ const Navbar = () => {
             <NavLink to="">Explore</NavLink>
             <NavLink to="">Start a Prediction</NavLink>
         </div> 
-        <div className="links__center">
+        <div className="links__center links">
             <img src={logo} alt="Kickstarter Success Predictor" />
             <h2>Success Predictor</h2>
         </div> 
