@@ -1,12 +1,24 @@
 import React from 'react';
 
 
-function App() {
-  return (
-    <div >
-      
-    </div>
-  );
-}
+import './App.css';
+import Navbar from './components/Navbar';
+import LoginForm from "./components/LoginForm";
+import { Route } from 'react-router-dom';
+import SignUpForm from './components/SignUpForm';
 
-export default App;
+function App() {
+    return ( <div className="app">
+        <Navbar />
+        <Route path="/login">
+            <LoginForm />
+        </Route>
+        <Route path="/signup">
+            <SignUpForm />
+        </Route>
+
+
+        </div>);
+    }
+
+    export default App;
