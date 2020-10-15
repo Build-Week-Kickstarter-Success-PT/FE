@@ -1,24 +1,23 @@
-import React from 'react';
+import React from "react";
+import { Route } from "react-router-dom";
 
-
-import './App.css';
-import Navbar from './components/Navbar';
+import "./App.css";
+import Navbar from "./components/Navbar";
 import LoginForm from "./components/LoginForm";
-import { Route } from 'react-router-dom';
-import SignUpForm from './components/SignUpForm';
+import SignUpForm from "./components/SignUpForm";
 
 function App() {
-    return ( <div className="app">
-        <Navbar />
-        <Route path="/login">
-            <LoginForm />
-        </Route>
-        <Route path="/signup">
-            <SignUpForm />
-        </Route>
+  return (
+    <div className="app">
+      <Navbar />
+      <Route path="/login">
+        <LoginForm />
+      </Route>
+      <Route path="/signup">
+        <SignUpForm />
+      </Route>
+    </div>
+  );
+}
 
-
-        </div>);
-    }
-
-    export default App;
+export default App;
