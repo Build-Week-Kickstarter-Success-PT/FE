@@ -8,7 +8,8 @@ const LoginForm = () => {
     const history = useHistory();
 
     const [user, setUser] = useState({
-      username:"",
+      name:"",
+      email: "",
       password: ""
     });
    
@@ -45,7 +46,8 @@ const LoginForm = () => {
             <div className="Login__InnerBox">
                 <h3 className="Component__Title">Log in</h3>
                 <form className="Login__Form" onSubmit={handleSubmit}>
-                    <input type="username" placeholder="Username" name="username" value={user.username} onChange={handleChange}/>
+                    <input type="username" placeholder="Username" name="name" value={user.name} onChange={handleChange}/>
+                    <input type="email" placeholder="Email" name="email" onChange={handleChange} value={user.email} />
                     <input type="password" placeholder="Password" name="password" value={user.password}  onChange={handleChange} />
                     <NavLink style={{fontSize:".8rem", marginTop:"13px"}} to="">Forgot your password?</NavLink>
                     <button className="Submit__Btn" type="submit">Log in</button>

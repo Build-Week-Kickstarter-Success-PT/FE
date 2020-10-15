@@ -10,7 +10,8 @@ const SignUpForm = () => {
 
 
     const [signUp, setSignUp] = useState({
-        username: "",
+        name: "",
+        email: "",
         password: ""
       });
 
@@ -26,7 +27,7 @@ const SignUpForm = () => {
          console.log(res);
      })  
      .catch(err =>
-       console.error("bk: Login.js: login: err.message: ", err.message)
+       console.error("bk: SignUp.js: signup: err.message: ", err.message)
      );
     }
 
@@ -46,7 +47,8 @@ const SignUpForm = () => {
             <div className="SignUp__InnerBox">
                 <h3 className="Component__Title">Sign Up</h3>
                 <form className="SignUp__Form" onSubmit={handleSubmit}>
-                    <input type="text" placeholder="Username" name="username" onChange={handleChange} value={signUp.username} />
+                    <input type="text" placeholder="Username" name="name" onChange={handleChange} value={signUp.name} />
+                    <input type="email" placeholder="Email" name="email" onChange={handleChange} value={signUp.email} />
                     <input type="password" placeholder="Password" name="password" onChange={handleChange} value={signUp.password}/>
                     <button className="Submit__Btn" type="submit">Sign up</button>
 
