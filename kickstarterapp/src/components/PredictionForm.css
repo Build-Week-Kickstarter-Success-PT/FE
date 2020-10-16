@@ -27,6 +27,7 @@
 }
 
 input {
+  font-size: 1rem;
   height: 40px;
   line-height: 1;
   margin-top: 18px;
@@ -37,21 +38,42 @@ input:focus {
   outline-color: #028858;
 }
 
-.RememberMe__Checkbox {
-  margin-bottom: 24px;
-  font-size: 0.9rem;
+.Categories {
+  font-family: "Maison Neue Book", "Helvetica Neue", Helvetica, Arial,
+    "Liberation Sans", FreeSans, sans-serif;
+  font-size: 1rem;
+  height: 40px;
+  margin-top: 18px;
+  padding-left: 10px;
 }
 
-.RememberMe__Checkbox input {
-  height: auto;
-  margin-top: 0;
-  margin-right: 10px;
+.Categories option {
+  color: #282828;
+}
+
+.Categories:focus {
+  outline-color: #028858;
+}
+
+textarea {
+  height: 100px;
+  line-height: 1.5;
+  margin-top: 18px;
+  padding-top: 10px;
+  padding-left: 10px;
+  font-size: 1rem;
+  font-family: "Maison Neue Book", "Helvetica Neue", Helvetica, Arial,
+    "Liberation Sans", FreeSans, sans-serif;
+}
+
+textarea:focus {
+  outline-color: #028858;
 }
 
 .Submit__Btn {
   font-size: 0.9rem;
   margin-top: 18px;
-  margin-bottom: 0;
+  margin-bottom: 36px;
   height: 40px;
   color: white;
   background-color: #028858;
