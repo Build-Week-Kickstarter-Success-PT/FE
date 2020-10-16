@@ -23,10 +23,10 @@ const PredictionForm = () => {
   ];
 
   return (
-    <div className="Login__Component">
-      <div className="Login__InnerBox">
+    <div className="Prediction__Component">
+      <div className="Prediction__InnerBox">
         <h3 className="Component__Title">Campaign Prediction</h3>
-        <form className="Login__Form">
+        <form className="Prediction__Form">
           <input type="text" placeholder="Campaign Name" />
           <input type="text" placeholder="Monetary Goal ($)" />
           <input type="text" placeholder="Campaign Length (Days)" />
