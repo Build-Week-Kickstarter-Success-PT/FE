@@ -18,6 +18,7 @@ const Navbar = () => {
         <div className="links__right links">
             <NavLink to="" style={{display:"flex", marginRight:"5px"}}><div>Search</div><SearchIcon style={{ fontSize: 17 , marginLeft: "5px", marginTop:"3px" }} /></NavLink>
             <NavLink to="/login">Log in</NavLink>
+            <NavLink to="/signup">Register</NavLink>
         </div> 
     </div>
     )

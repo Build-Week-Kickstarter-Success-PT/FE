@@ -1,25 +1,24 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 import "./App.css";
 import Navbar from "./components/Navbar";
-import LoginForm from "./components/LoginForm";
+import LoginForm from "./components/loginForm";
 import SignUpForm from "./components/SignUpForm";
 import PredictionForm from "./components/PredictionForm";
+import User from "./protected/user";
+import UserContent from "./pages/userContent";
 
 function App() {
   return (
     <div className="app">
       <Navbar />
-      <Route path="/login">
-        <LoginForm />
-      </Route>
-      <Route path="/signup">
-        <SignUpForm />
-      </Route>
-      <Route path="/prediction">
-        <PredictionForm />
-      </Route>
+      <Switch>
+        <Route path="/login" component={LoginForm} />
+        <Route path="/signup" component={SignUpForm} />
+        <Route path="/prediction" component={PredictionForm} />
+        <User exact path="/user" component={UserContent} />
+      </Switch>
     </div>
   );
 }
