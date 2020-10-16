@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext, useReducer} from "react";
 import { Route, Switch } from "react-router-dom";
 
 import "./App.css";
@@ -9,8 +9,18 @@ import PredictionForm from "./components/PredictionForm";
 import User from "./protected/user";
 import UserContent from "./pages/userContent";
 
+import {KickStartContext, campaignReducer} from './context';
+
 function App() {
+
+  const updateContext = useContext(KickStartContext);
+
+  const [state, dispatch] = useReducer(campaignReducer, updateContext);
+
+
   return (
+
+    <KickStartContext.Provider value={{state, dispatch}} >
     <div className="app">
       <Navbar />
       <Switch>
@@ -20,6 +30,7 @@ function App() {
         <User exact path="/user" component={UserContent} />
       </Switch>
     </div>
+    </KickStartContext.Provider>
   );
 }
 
