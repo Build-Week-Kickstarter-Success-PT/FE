@@ -9,7 +9,7 @@ const Navbar = () => {
     <div className="navbar">
         <div className="links__left links">
             <NavLink to="">Explore</NavLink>
-            <NavLink to="">Start a Prediction</NavLink>
+            <NavLink to="/prediction">Start a Prediction</NavLink>
         </div> 
         <div className="links__center links">
             <img src={logo} alt="Kickstarter Success Predictor" />
