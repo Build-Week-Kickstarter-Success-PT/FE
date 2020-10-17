@@ -1,4 +1,4 @@
-const tokenState = "";
+const tokenState = "Token";
 export const getToken = () => {
     return localStorage.getItem(tokenState);
 };

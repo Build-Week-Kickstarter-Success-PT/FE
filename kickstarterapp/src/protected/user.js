@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, Redirect } from "react-router-dom";
+import {getToken} from '../utils';
 
 const User = ({ component: Component, ...routeProps }) => {
 
@@ -8,10 +9,10 @@ const User = ({ component: Component, ...routeProps }) => {
       {...routeProps}
       render={props => {
 
-        if (localStorage.getItem("token")) {
+        if (getToken()) {
           return <Component {...props} />;
         } else {
-          return <Redirect to="/user" />;
+          return <Redirect to="/login" />;
         }
       }}
     />

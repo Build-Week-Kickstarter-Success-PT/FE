@@ -61,8 +61,8 @@ const LoginForm = () => {
     axiosWithAuth()
       .post("/api/auth/login", credentials)
       .then((res) => {
-        setToken();
-        history.push("/user");
+        setToken(res.data.token);
+        history.push("/user/:id/campaigns");
         console.log(res);
       })
       .catch((err) =>

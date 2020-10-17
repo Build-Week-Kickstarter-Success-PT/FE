@@ -138,14 +138,22 @@ const PredictionForm = () => {
           >
             <option disabled value="Select Category">
               Select Category
-            </option>
-            {categories.map((category, index) => {
-              return (
-                <option key={index} value={category}>
-                  {category}
-                </option>
-              );
-            })}
+            </option>            
+            <option value="Comics">Comics</option>
+            <option value="Crafts">Crafts</option>
+            <option value="Dance">Dance</option>
+            <option value="Design">Design</option>
+            <option value="Fashion">Fashion</option>
+            <option value="Film & Video">Film & Video</option>
+            <option value="Food">Food</option>
+            <option value="Games">Games</option>
+            <option value="Journalism">Journalism</option>
+            <option value="Music">Music</option>
+            <option value="Photography">Photography</option>
+            <option value="Publishing">Publishing</option>
+            <option value="Technology">Technology</option>
+            <option value="Theater">Theater</option>
+         main
           </select>
           <p className="errors">{errors.category}</p>
           <textarea

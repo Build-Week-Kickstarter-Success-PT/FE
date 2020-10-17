@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext, useReducer} from "react";
 import { Route, Switch } from "react-router-dom";
 
 import "./App.css";
@@ -9,17 +9,28 @@ import PredictionForm from "./components/PredictionForm";
 import User from "./protected/user";
 import UserContent from "./pages/userContent";
 
+
+
 function App() {
+
+  
+  
+
+
+
   return (
+
+ 
     <div className="app">
       <Navbar />
       <Switch>
         <Route path="/login" component={LoginForm} />
         <Route path="/signup" component={SignUpForm} />
         <Route path="/prediction" component={PredictionForm} />
-        <User exact path="/user" component={UserContent} />
+        <User exact path="/user/:id/campaigns" component={UserContent} />
       </Switch>
     </div>
+   
   );
 }
 
