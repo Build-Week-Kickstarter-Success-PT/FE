@@ -1,25 +1,22 @@
 import React, {createContext, useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
-import axiosWithAuth from '../utils';
+import { axiosWithAuth, getToken} from '../utils';
+
+
+
+
+export const KickStartContext = createContext(); 
+
+export const KickStartProvider = (props) => {
+
 
 const {id} = useParams();
-const [campaign, setCampaign] = useState();
 
-const KickStartContext = createContext(
+  
+return <KickStartContext.Provider >{props.children}</KickStartContext.Provider>
 
-    
-    useEffect(() => {
-        
-        axiosWithAuth().get(`/api/users/${id}/campaigns`)
-        .then(res => {
-                setCampaign(res.data);
-        })
-        .catch(error => {"Unable to fetch data: ", error})
-
-    }, [])
-    
-    ); 
+}
 
 
 
-export default KickStartContext;
+export default KickStartProvider;

@@ -39,8 +39,16 @@ const PredictionForm = () => {
             >
               Select Category
             </option>
-            <option value="Art">Art</option>
-            <option value="Comics">Comics</option>
+           {categories.map(cat => {
+            return( 
+            <>
+             <option value={cat}>{cat}</option>
+             </>
+             )
+           })}
+           
+            
+            {/* <option value="Comics">Comics</option>
             <option value="Crafts">Crafts</option>
             <option value="Dance">Dance</option>
             <option value="Design">Design</option>
@@ -53,7 +61,7 @@ const PredictionForm = () => {
             <option value="Photography">Photography</option>
             <option value="Publishing">Publishing</option>
             <option value="Technology">Technology</option>
-            <option value="Theater">Theater</option>
+            <option value="Theater">Theater</option> */}
           </select>
           <textarea placeholder="Campaign Description" />
           <button className="Submit__Btn" type="submit">

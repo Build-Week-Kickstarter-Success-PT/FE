@@ -3,7 +3,7 @@ const EDIT_CAMPAIGN = "EDIT_CAMPAIGN";
 const DELETE_CAMPAIGN = "DELETE_CAMPAIGN";
 
 
-export default function campaignReducer(state, action){
+export function CampaignReducer(state, action){
     switch(action.type){
         case ADD_CAMPAIGN:
             return {
@@ -43,3 +43,5 @@ export default function campaignReducer(state, action){
             return state;
     }
 }
+
+export default CampaignReducer;
