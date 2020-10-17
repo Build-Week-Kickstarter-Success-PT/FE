@@ -84,6 +84,13 @@ textarea:focus {
   background-color: #037362;
 }
 
+.Submit__Btn:disabled {
+  background-color: gray;
+}
+.Submit__Btn:disabled:hover {
+  background-color: gray;
+}
+
 a {
   color: #2752ff;
   text-decoration: none;
@@ -91,4 +98,10 @@ a {
 
 a:hover {
   color: #282828;
+}
+
+.errors {
+  color: red;
+  font-size: 0.8rem;
+  margin: 5px 0;
 }
