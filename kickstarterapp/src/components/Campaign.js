@@ -46,6 +46,14 @@ const Campaign = () => {
 
   return (
     <Card className={classes.root}>
+      <CardHeader
+        title="SUCCESS"
+        style={{
+          backgroundColor: "#028858",
+          color: "white",
+          textAlign: "center",
+        }}
+      />
       <CardMedia
         className={classes.media}
         image="https://images.unsplash.com/photo-1497515114629-f71d768fd07c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1362&q=80"
