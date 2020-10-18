@@ -5,35 +5,55 @@ import { useHistory } from "react-router-dom";
 
 import "./PredictionForm.css";
 
+
+
 const PredictionForm = () => {
-  const defaultValue = {
-    name: "",
-    goal: "",
-    length: "",
-    category: "Select Category",
-    description: "",
-  };
-  const [prediction, setPrediction] = useState(defaultValue);
-  const [buttonDisabled, setButtonDisabled] = useState(false);
-  const [errors, setErrors] = useState({ ...defaultValue, category: "" });
-  const history = useHistory();
-  const categories = [
-    "Art",
-    "Comics",
-    "Crafts",
-    "Dance",
-    "Design",
-    "Fashion",
-    "Film & Video",
-    "Food",
-    "Games",
-    "Journalism",
-    "Music",
-    "Photography",
-    "Publishing",
-    "Technology",
-    "Theater",
-  ];
+
+
+  const [categories, setCategories] = useState([
+    {Label: "Art", Value: "Art"},
+    {Label: "Comics", Value: "Comics"},
+    {Label: "Crafts", Value: "Crafts"},
+    {Label: "Dance", Value: "Dance"},
+    {Label: "Design", Value: "Design"},
+    {Label: "Fashion", Value: "Fashion"},
+    {Label: "Film & Video", Value: "Film & Video"},
+    {Label: "Food", Value: "Food"},
+    {Label: "Games", Value: "Games"},
+    {Label: "Journalism", Value: "Journalism"},
+    {Label: "Music", Value: "Music"},
+    {Label: "Photography", Value: "Photography"},
+    {Label: "Publishing", Value: "Publishing"},
+    {Label: "Technology", Value: "Technology"},
+    {Label: "Theater", Value: "Theater"},
+  ]);
+
+
+
+
+  const [campaignName, setCampaignName] = useState("");
+  const [goal, setGoal] = useState(""); 
+  const [description, setDescription] = useState("");
+  const [campaignLength, setCampaignLength] = useState("");
+
+  const {campaign, createCampaign} = useContext(KickStartContext);
+
+
+  const handleSubmit = e => {
+
+    e.preventDefault();
+    const campaignNew ={
+      campaignName,
+      goal,
+      description,
+      campaignLength,
+      categories
+      }
+    createCampaign(campaignNew);
+
+  }
+
+  
 
   let schema = yup.object().shape({
     name: yup.string().min(2).required("Enter a campaign name"),
@@ -98,6 +118,7 @@ const PredictionForm = () => {
   };
 
   return (
+    <Route path="/prediction" > 
     <div className="Prediction__Component">
       <div className="Prediction__InnerBox">
         <h3 className="Component__Title">Campaign Prediction</h3>
@@ -173,6 +194,7 @@ const PredictionForm = () => {
         </form>
       </div>
     </div>
+    </Route>
   );
 };
 

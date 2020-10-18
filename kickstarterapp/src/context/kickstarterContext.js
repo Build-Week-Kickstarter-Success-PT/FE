@@ -1,22 +1,26 @@
-import React, {createContext, useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
-import { axiosWithAuth, getToken} from '../utils';
+import {createContext} from 'react';
 
 
+export const initialState = {
 
-
-export const KickStartContext = createContext(); 
-
-export const KickStartProvider = (props) => {
-
-
-const {id} = useParams();
-
-  
-return <KickStartContext.Provider >{props.children}</KickStartContext.Provider>
+    currentCampaign: null,
+campaign: [
+ {   campaign_id: 1,
+    campaign_name: "Sample Campaign Name",
+    goal: 10000,
+    description: "Sample description",
+    campaign_length: 20,
+    category: "Sample Category",
+    user_id: 1
+ }]
 
 }
 
 
+export const KickStartContext = createContext(initialState); 
 
-export default KickStartProvider;
+
+
+
+
+export default KickStartContext;
