@@ -1,5 +1,7 @@
-import React, { useState } from "react";
-import { NavLink, useHistory, useParams } from "react-router-dom";
+
+import React, { useState, useEffect } from "react";
+import { NavLink, useHistory } from "react-router-dom";
+import * as yup from "yup";
 import "./LoginForm.css";
 import { axiosWithAuth, setToken } from "../utils";
 
@@ -14,13 +16,48 @@ const LoginForm = () => {
     password: "",
   });
 
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  let schema = yup.object().shape({
+    name: yup.string().min(2).required("Enter a username"),
+    email: yup
+      .string()
+      .required("Please provide an email")
+      .email("This is not a valid email")
+      .required("Enter a monetary goal"),
+    password: yup.string().min(5).required("You need to enter a password"),
+  });
+
+  useEffect(() => {
+    schema.isValid(user).then((valid) => {
+      setButtonDisabled(!valid);
+    });
+  }, [user]);
+
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
+    validateForm(e);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     loginCreds(user);
+  };
+
+  const validateForm = (e) => {
+    e.persist();
+    yup
+      .reach(schema, e.target.name)
+      .validate(e.target.value)
+      .then((valid) => setErrors({ ...errors, [e.target.name]: "" }))
+      .catch((error) => {
+        setErrors({ ...errors, [e.target.name]: error.errors[0] });
+      });
   };
 
   const loginCreds = (credentials) => {
@@ -48,6 +85,7 @@ const LoginForm = () => {
             value={user.name}
             onChange={handleChange}
           />
+          <p className="errors">{errors.name}</p>
           <input
             type="email"
             placeholder="Email"
@@ -55,6 +93,7 @@ const LoginForm = () => {
             onChange={handleChange}
             value={user.email}
           />
+          <p className="errors">{errors.email}</p>
           <input
             type="password"
             placeholder="Password"
@@ -62,10 +101,15 @@ const LoginForm = () => {
             value={user.password}
             onChange={handleChange}
           />
+          <p className="errors">{errors.password}</p>
           <NavLink style={{ fontSize: ".8rem", marginTop: "13px" }} to="">
             Forgot your password?
           </NavLink>
-          <button className="Submit__Btn" type="submit">
+          <button
+            disabled={buttonDisabled}
+            className="Submit__Btn"
+            type="submit"
+          >
             Log in
           </button>
           <label className="RememberMe__Checkbox">
