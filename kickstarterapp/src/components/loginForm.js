@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useHistory, useParams } from "react-router-dom";
 import "./LoginForm.css";
 import { axiosWithAuth, setToken } from "../utils";
 
 const LoginForm = () => {
+
   const history = useHistory();
+  const {id} = useParams();
 
   const [user, setUser] = useState({
     name: "",
@@ -26,7 +28,7 @@ const LoginForm = () => {
       .post("/api/auth/login", credentials)
       .then((res) => {
         setToken(res.data.token);
-        history.push("/user/:id/campaigns");
+        history.push(`/user/${id}`);
         console.log(res);
       })
       .catch((err) =>

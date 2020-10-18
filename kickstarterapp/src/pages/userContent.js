@@ -1,5 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import { useParams } from 'react-router-dom';
+import React, {useEffect, useState, useContext} from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { KickStartContext } from '../context';
 import {axiosWithAuth} from '../utils';
 
 
@@ -9,6 +10,8 @@ function UserContent() {
 
     
     const [campaign, setCampaign] = useState([]);
+
+    const {state, dispatch} = useContext(KickStartContext);
 
         const user_id = useParams()
 
@@ -25,7 +28,7 @@ function UserContent() {
   
     return (
         <div>
-           
+           <Link to="/prediction"> <button>Make Prediction</button> </Link>
         </div>
     )
 }

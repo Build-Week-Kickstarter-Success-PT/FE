@@ -1,4 +1,4 @@
-import React, {useContext, useReducer} from "react";
+import React from "react";
 import { Route, Switch } from "react-router-dom";
 
 import "./App.css";
@@ -9,28 +9,27 @@ import PredictionForm from "./components/PredictionForm";
 import User from "./protected/user";
 import UserContent from "./pages/userContent";
 
+import {GlobalProvider} from './context';
 
 
 function App() {
 
-  
-  
 
 
 
   return (
 
- 
+ <GlobalProvider> 
     <div className="app">
       <Navbar />
       <Switch>
         <Route path="/login" component={LoginForm} />
         <Route path="/signup" component={SignUpForm} />
         <Route path="/prediction" component={PredictionForm} />
-        <User exact path="/user/:id/campaigns" component={UserContent} />
+        <User exact path="/user/:id" component={UserContent} />
       </Switch>
     </div>
-   
+    </GlobalProvider>
   );
 }
 
