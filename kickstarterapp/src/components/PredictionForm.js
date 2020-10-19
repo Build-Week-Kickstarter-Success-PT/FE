@@ -11,21 +11,21 @@ const PredictionForm = () => {
 
 
   const [category, setCategories] = useState([
-    {Value: "Art"},
-    {Value: "Comics"},
-    {Value: "Crafts"},
-    {Value: "Dance"},
-    {Value: "Design"},
-    {Value: "Fashion"},
-    {Value: "Film & Video"},
-    {Value: "Food"},
-    {Value: "Games"},
-    {Value: "Journalism"},
-    {Value: "Music"},
-    {Value: "Photography"},
-    {Value: "Publishing"},
-    {Value: "Technology"},
-    {Value: "Theater"},
+    "Art",
+    "Comics",
+    "Crafts",
+    "Dance",
+    "Design",
+   "Fashion",
+    "Film & Video",
+    "Food",
+   "Games",
+   "Journalism",
+   "Music",
+    "Photography",
+    "Publishing",
+   "Technology",
+    "Theater",
   ]);
 
 
@@ -149,16 +149,16 @@ const PredictionForm = () => {
           {/* <p className="errors">{errors.length}</p> */}
           <select
             name="category"
-            value={category.Value}
+            value={category}
             multiple= {false}
             className="Categories"
             // style={{
             //   color:
             //     prediction.category === "Select Category" ? "gray" : "#282828",
             // }}
-            onChange={(e) => setCategories({Value: e.target.value})}
+            onChange={(e) => setCategories(e.target.value)}
           >
-            <option disabled value="Select Category">
+            <option  defaultValue="Select Category">
               Select Category
             </option>    
             <option value="Comics">Comics</option>
