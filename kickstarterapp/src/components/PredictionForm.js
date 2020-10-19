@@ -10,31 +10,31 @@ import { KickStartContext } from "../context";
 const PredictionForm = () => {
 
 
-  const [categories, setCategories] = useState([
-    {Label: "Art", Value: "Art"},
-    {Label: "Comics", Value: "Comics"},
-    {Label: "Crafts", Value: "Crafts"},
-    {Label: "Dance", Value: "Dance"},
-    {Label: "Design", Value: "Design"},
-    {Label: "Fashion", Value: "Fashion"},
-    {Label: "Film & Video", Value: "Film & Video"},
-    {Label: "Food", Value: "Food"},
-    {Label: "Games", Value: "Games"},
-    {Label: "Journalism", Value: "Journalism"},
-    {Label: "Music", Value: "Music"},
-    {Label: "Photography", Value: "Photography"},
-    {Label: "Publishing", Value: "Publishing"},
-    {Label: "Technology", Value: "Technology"},
-    {Label: "Theater", Value: "Theater"},
+  const [category, setCategories] = useState([
+    {Value: "Art"},
+    {Value: "Comics"},
+    {Value: "Crafts"},
+    {Value: "Dance"},
+    {Value: "Design"},
+    {Value: "Fashion"},
+    {Value: "Film & Video"},
+    {Value: "Food"},
+    {Value: "Games"},
+    {Value: "Journalism"},
+    {Value: "Music"},
+    {Value: "Photography"},
+    {Value: "Publishing"},
+    {Value: "Technology"},
+    {Value: "Theater"},
   ]);
 
 
 
 
-  const [campaignName, setCampaignName] = useState("");
+  const [campaign_name, setCampaignName] = useState("");
   const [goal, setGoal] = useState(""); 
   const [description, setDescription] = useState("");
-  const [campaignLength, setCampaignLength] = useState("");
+  const [campaign_length, setCampaignLength] = useState("");
 
   const {campaign, createCampaign} = useContext(KickStartContext);
 
@@ -43,11 +43,11 @@ const PredictionForm = () => {
 
     e.preventDefault();
     const campaignNew ={
-      campaignName,
+      campaign_name,
       goal,
       description,
-      campaignLength,
-      categories
+      campaign_length,
+      category
       }
     createCampaign(campaignNew);
 
@@ -125,7 +125,7 @@ const PredictionForm = () => {
         <form className="Prediction__Form" onSubmit={handleSubmit}>
           <input
             name="name"
-            value={campaignName}
+            value={campaign_name}
             type="text"
             placeholder="Campaign Name"
             onChange={(e) => setCampaignName(e.target.value)}
@@ -141,7 +141,7 @@ const PredictionForm = () => {
           {/* <p className="errors">{errors.goal}</p> */}
           <input
             name="length"
-            value={campaignLength}
+            value={campaign_length}
             type="text"
             placeholder="Campaign Length (Days)"
             onChange={(e) => setCampaignLength(e.target.value)}
@@ -149,22 +149,19 @@ const PredictionForm = () => {
           {/* <p className="errors">{errors.length}</p> */}
           <select
             name="category"
-            value={categories}
+            value={category.Value}
+            multiple= {false}
             className="Categories"
             // style={{
             //   color:
             //     prediction.category === "Select Category" ? "gray" : "#282828",
             // }}
-            onChange={(e) => setCategories(e.target.value)}
+            onChange={(e) => setCategories({Value: e.target.value})}
           >
             <option disabled value="Select Category">
               Select Category
             </option>    
-            {categories.map(({Label, Value}) => {
-                  return( 
-                <option key={Value} value={Value} >{Label}</option>
-                  )})}        
-            {/* <option value="Comics">Comics</option>
+            <option value="Comics">Comics</option>
             <option value="Crafts">Crafts</option>
             <option value="Dance">Dance</option>
             <option value="Design">Design</option>
@@ -177,8 +174,7 @@ const PredictionForm = () => {
             <option value="Photography">Photography</option>
             <option value="Publishing">Publishing</option>
             <option value="Technology">Technology</option>
-            <option value="Theater">Theater</option> */}
-         main
+            <option value="Theater">Theater</option>
           </select>
           {/* <p className="errors">{errors.category}</p> */}
           <textarea
