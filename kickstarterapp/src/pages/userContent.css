@@ -1,0 +1,9 @@
+.Add__Button {
+  margin-left: -60px;
+  margin-top: 25px;
+  color: #028858;
+}
+
+.Add__Button:hover {
+  color: #037362;
+}
