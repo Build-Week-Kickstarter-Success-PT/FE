@@ -1,4 +1,3 @@
-  
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
@@ -38,9 +37,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // Create our number formatter.
-var formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
+var formatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
 
   // These options are needed to round to whole numbers if that's what you want.
   //minimumFractionDigits: 0,
@@ -50,8 +49,6 @@ var formatter = new Intl.NumberFormat('en-US', {
 const Campaign = ({ campaign }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
-
-  console.log(campaign);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -97,6 +94,22 @@ const Campaign = ({ campaign }) => {
           component="p"
         >
           Category: {campaign.category}
+        </Typography>
+        <Typography
+          style={{ paddingBottom: "15px" }}
+          variant="body2"
+          color="textSecondary"
+          component="p"
+        >
+          Sub Category: {/*campaign.subCategory*/}
+        </Typography>
+        <Typography
+          style={{ paddingBottom: "15px" }}
+          variant="body2"
+          color="textSecondary"
+          component="p"
+        >
+          Country: {/*campaign.country*/}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

@@ -7,8 +7,6 @@ import { axiosWithAuth, setToken } from "../utils";
 const LoginForm = (props) => {
   const history = useHistory();
 
-  console.log(props);
-
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -63,7 +61,6 @@ const LoginForm = (props) => {
         setToken(res.data.token);
         props.setLoggedUser(res.data.auth);
         history.push(`/user/${res.data.auth.id}`);
-        console.log(res);
       })
       .catch((err) =>
         console.error("bk: Login.js: login: err.message: ", err.message)
