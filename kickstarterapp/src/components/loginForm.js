@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useHistory, useParams } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import * as yup from "yup";
 import "./LoginForm.css";
 import { axiosWithAuth, setToken } from "../utils";
 
 const LoginForm = () => {
   const history = useHistory();
-  const { id } = useParams();
 
   const [user, setUser] = useState({
     name: "",
@@ -63,7 +62,7 @@ const LoginForm = () => {
       .post("/api/auth/login", credentials)
       .then((res) => {
         setToken(res.data.token);
-        history.push(`/user/${id}`);
+        history.push(`/user/${res.data.auth.id}`);
         console.log(res);
       })
       .catch((err) =>
