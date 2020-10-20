@@ -8,17 +8,20 @@ const LoginForm = () => {
   const history = useHistory();
 
   const [user, setUser] = useState({
+
     email: "",
     password: "",
   });
 
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [errors, setErrors] = useState({
+
     email: "",
     password: "",
   });
 
   let schema = yup.object().shape({
+
     email: yup
       .string()
       .required("Please provide an email")

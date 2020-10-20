@@ -1,18 +1,22 @@
 
 import React, { useEffect, useState, useContext } from "react";
 import { Link, Route, useParams, useRouteMatch } from "react-router-dom";
-import { KickStartContext } from "../context";
 import { axiosWithAuth } from "../utils";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import gsap from "gsap";
 import "./userContent.css";
 import PredictionForm from "../components/PredictionForm";
-import Campaign from "../components/Campaign";
+
+import { KickStartContext } from "../context";
+
+import Campaign from '../components/Campaign';
+
 
 function UserContent(props) {
   const [campaign, setCampaign] = useState([]);
 
   const { state, dispatch } = useContext(KickStartContext);
+
 
   const user_id = useParams();
   const urlParams = useRouteMatch();
@@ -28,6 +32,7 @@ function UserContent(props) {
       .catch((error) => console.log("Unable to fetch data: ", error));
   }, []);
 
+
   useEffect(() => {
     gsap.to(".Add__Button", {
       duration: 1,
@@ -37,6 +42,7 @@ function UserContent(props) {
   }, []);
 
   return (
+
     <div style={{ display: "flex" }}>
       <Route
         exact
@@ -52,6 +58,7 @@ function UserContent(props) {
           Make Prediction
         </AddCircleOutlineIcon>{" "}
       </Link>
+
       <div
         style={{
           marginLeft: "100px",
