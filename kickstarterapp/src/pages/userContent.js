@@ -1,17 +1,20 @@
 
 import React, { useEffect, useState, useContext } from "react";
 import { Link, Route, useParams, useRouteMatch } from "react-router-dom";
-import { KickStartContext } from "../context";
 import { axiosWithAuth } from "../utils";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import gsap from "gsap";
 import "./userContent.css";
 import PredictionForm from "../components/PredictionForm";
+import { KickStartContext } from "../context";
+
+import Campaign from '../components/Campaign';
 
 function UserContent(props) {
   const [campaign, setCampaign] = useState([]);
 
   const { state, dispatch } = useContext(KickStartContext);
+
 
   const user_id = useParams();
   const urlParams = useRouteMatch();
@@ -20,12 +23,13 @@ function UserContent(props) {
     axiosWithAuth()
       .get(`/api/users/${user_id.id}/campaigns`)
       .then((res) => {
-        console.log(res);
+        console.log(res.data);
         setCampaign(res.data);
         console.log(campaign);
       })
       .catch((error) => console.log("Unable to fetch data: ", error));
   }, []);
+
 
   useEffect(() => {
     gsap.to(".Add__Button", {
@@ -37,6 +41,7 @@ function UserContent(props) {
 
   return (
     <div>
+   
       <Route exact path={`${urlParams.path}/prediction`}>
         <PredictionForm />
       </Route>
@@ -49,6 +54,13 @@ function UserContent(props) {
           Make Prediction
         </AddCircleOutlineIcon>{" "}
       </Link>
+      {campaign.map((cam, i) => {
+          return (
+            <div key={i} style={{ order: campaign.length - i }}>
+              <Campaign campaign={cam}  />
+            </div>
+          );
+        })}
     </div>
   );
 

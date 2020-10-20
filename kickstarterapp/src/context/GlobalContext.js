@@ -1,20 +1,20 @@
 import React, {useReducer} from 'react';
 import {CampaignReducer, KickStartContext, ADD_CAMPAIGN, DELETE_CAMPAIGN, EDIT_CAMPAIGN } from './index';
 import {axiosWithAuth, setToken} from '../utils';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory} from 'react-router-dom';
 
 
 
 export const GlobalProvider = ({ children }) => {
     const [ state, dispatch ] = useReducer(CampaignReducer , KickStartContext);
-  const {user_id} = useParams();
-const history = useHistory();
+    const history = useHistory();
+   
 
     function createCampaign(campaign){
-        axiosWithAuth().post(`/api/users/${user_id}/campaigns`, campaign)
+        axiosWithAuth().post(`/api/users/${campaign.user_id}/campaigns`, campaign)
      .then(res => {
        setToken(res.data.token);
-       history.push(`/user/${user_id}`);
+       history.push(`/user/${res.data.user_id}`);
          console.log(res.data);
      })  
      .catch(err =>

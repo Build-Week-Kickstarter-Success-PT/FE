@@ -1,3 +1,4 @@
+  
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
@@ -36,9 +37,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Campaign = () => {
+// Create our number formatter.
+var formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+
+  // These options are needed to round to whole numbers if that's what you want.
+  //minimumFractionDigits: 0,
+  //maximumFractionDigits: 0,
+});
+
+const Campaign = ({ campaign }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
+
+  console.log(campaign);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -54,12 +67,12 @@ const Campaign = () => {
           textAlign: "center",
         }}
       />
-      <CardMedia
+      {/* <CardMedia
         className={classes.media}
         image="https://images.unsplash.com/photo-1497515114629-f71d768fd07c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1362&q=80"
         title="Coffee"
-      />
-      <CardHeader title="Support Basilica Hudson!" />
+      /> */}
+      <CardHeader title={campaign.campaign_name} />
       <CardContent>
         <Typography
           style={{ paddingBottom: "15px" }}
@@ -67,7 +80,7 @@ const Campaign = () => {
           color="textSecondary"
           component="p"
         >
-          Monetary Goal: $25,000
+          Monetary Goal: {formatter.format(campaign.goal)}
         </Typography>
         <Typography
           style={{ paddingBottom: "15px" }}
@@ -75,7 +88,7 @@ const Campaign = () => {
           color="textSecondary"
           component="p"
         >
-          Campaign Length: 45 days
+          Campaign Length: {campaign.campaign_length}
         </Typography>
         <Typography
           style={{ paddingBottom: "15px" }}
@@ -83,7 +96,7 @@ const Campaign = () => {
           color="textSecondary"
           component="p"
         >
-          Category: Music
+          Category: {campaign.category}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -93,12 +106,12 @@ const Campaign = () => {
         <IconButton aria-label="Delete">
           <DeleteIcon />
         </IconButton>
-        <IconButton aria-label="">
+        {/* <IconButton aria-label="">
           <ThumbUpIcon style={{ color: "#028858" }} />
         </IconButton>
         <IconButton aria-label="">
           <ThumbDownIcon style={{ color: "red" }} />
-        </IconButton>
+        </IconButton> */}
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
@@ -113,32 +126,7 @@ const Campaign = () => {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>Description:</Typography>
-          <Typography paragraph>
-            Right now, like so many other independent venues and nonprofits,
-            Basilica Hudson is struggling to keep the lights on. The
-            cancellation of our 10th Anniversary Season due to COVID-19 was
-            devastating and makes our ability to recover and sustain
-            challenging.
-          </Typography>
-          <Typography paragraph>
-            Our programs and general operations rely almost entirely on the
-            revenue from ticket sales and attendance at large-scale public
-            events. Even during a regular season of programming, we operate on a
-            tight hand-to-mouth budget. In March, we closed our venue and
-            cancelled our planned season to keep our community safe, creating a
-            70% budget shortfall.
-          </Typography>
-          <Typography paragraph>
-            We are busy adapting our programs - moving online and outdoors - to
-            maintain programs that serve people and the planet for another
-            decade. Above all, Basilica exists for the artists, makers and
-            activists that present with us, visit us, celebrate with us and
-            share in our passion for the emerging, the fringe, the avant-garde,
-            the loud, the beautiful, the weird, the handmade, the health of
-            planet, and the challenges and joys of new experiences through the
-            transformative experience of human exchange. We want to continue
-            supporting creatives, and we need your help to do it.
-          </Typography>
+          <Typography paragraph>{campaign.description}</Typography>
         </CardContent>
       </Collapse>
     </Card>

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import * as yup from "yup";
-import { Route } from "react-router-dom";
+import { Route, useParams } from "react-router-dom";
 
 import "./PredictionForm.css";
 import { KickStartContext } from "../context";
@@ -31,6 +31,8 @@ const PredictionForm = () => {
 
   const { campaign, createCampaign } = useContext(KickStartContext);
 
+  const userId = useParams();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const campaignNew = {
@@ -39,6 +41,7 @@ const PredictionForm = () => {
       description,
       campaign_length,
       category,
+      user_id:userId.id
     };
     createCampaign(campaignNew);
   };

@@ -12,6 +12,7 @@ import User from "./protected/user";
 
 import { GlobalProvider } from "./context";
 import Campaign from "./components/Campaign";
+import UserContent from './pages/userContent';
 
 function App() {
 

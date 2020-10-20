@@ -8,7 +8,7 @@ export function CampaignReducer(state, action){
         case ADD_CAMPAIGN:
             return {
                 ...state,
-              campaign: [...state.campaign,  action.payload]
+              campaign: [state.campaign, action.payload]
             }
         case DELETE_CAMPAIGN:
             const deletedCampaign = state.campaign.filter(

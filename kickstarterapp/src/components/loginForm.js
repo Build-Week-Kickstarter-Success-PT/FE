@@ -21,8 +21,7 @@ const LoginForm = () => {
   });
 
   let schema = yup.object().shape({
-    name: yup.string().min(2).required("Enter a username"),
-    email: yup
+      email: yup
       .string()
       .required("Please provide an email")
       .email("This is not a valid email")
