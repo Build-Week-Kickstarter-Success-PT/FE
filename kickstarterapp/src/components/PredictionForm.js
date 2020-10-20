@@ -5,55 +5,43 @@ import { Route } from "react-router-dom";
 import "./PredictionForm.css";
 import { KickStartContext } from "../context";
 
-
-
 const PredictionForm = () => {
-
-
   const [category, setCategories] = useState([
     "Art",
     "Comics",
     "Crafts",
     "Dance",
     "Design",
-   "Fashion",
+    "Fashion",
     "Film & Video",
     "Food",
-   "Games",
-   "Journalism",
-   "Music",
+    "Games",
+    "Journalism",
+    "Music",
     "Photography",
     "Publishing",
-   "Technology",
+    "Technology",
     "Theater",
   ]);
 
-
-
-
   const [campaign_name, setCampaignName] = useState("");
-  const [goal, setGoal] = useState(""); 
+  const [goal, setGoal] = useState("");
   const [description, setDescription] = useState("");
   const [campaign_length, setCampaignLength] = useState("");
 
-  const {campaign, createCampaign} = useContext(KickStartContext);
+  const { campaign, createCampaign } = useContext(KickStartContext);
 
-
-  const handleSubmit = e => {
-
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const campaignNew ={
+    const campaignNew = {
       campaign_name,
       goal,
       description,
       campaign_length,
-      category
-      }
+      category,
+    };
     createCampaign(campaignNew);
-
-  }
-
-  
+  };
 
   // let schema = yup.object().shape({
   //   name: yup.string().min(2).required("Enter a campaign name"),
@@ -97,7 +85,7 @@ const PredictionForm = () => {
   //   setPrediction(defaultValue);
   //   history.push("/");
 
-    //demo Axios request
+  //demo Axios request
   //   axios
   //     .post("https://reqres.in/api/users", prediction)
   //     .then((response) => {
@@ -118,7 +106,6 @@ const PredictionForm = () => {
   // };
 
   return (
-    <Route path="/prediction" > 
     <div className="Prediction__Component">
       <div className="Prediction__InnerBox">
         <h3 className="Component__Title">Campaign Prediction</h3>
@@ -150,7 +137,7 @@ const PredictionForm = () => {
           <select
             name="category"
             value={category}
-            multiple= {false}
+            multiple={false}
             className="Categories"
             // style={{
             //   color:
@@ -158,9 +145,7 @@ const PredictionForm = () => {
             // }}
             onChange={(e) => setCategories(e.target.value)}
           >
-            <option  defaultValue="Select Category">
-              Select Category
-            </option>    
+            <option defaultValue="Select Category">Select Category</option>
             <option value="Comics">Comics</option>
             <option value="Crafts">Crafts</option>
             <option value="Dance">Dance</option>
@@ -194,7 +179,6 @@ const PredictionForm = () => {
         </form>
       </div>
     </div>
-    </Route>
   );
 };
 

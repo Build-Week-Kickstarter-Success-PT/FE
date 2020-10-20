@@ -139,6 +139,14 @@ table {
 
 .app {
   background-color: #f7f7f6;
-  height: 100vh;
+  height: auto;
+  min-height: 100vh;
   width: 100%;
+}
+
+.Campaign__Area {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-width: 850px;
 }
