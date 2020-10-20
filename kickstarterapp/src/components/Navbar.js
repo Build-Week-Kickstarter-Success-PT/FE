@@ -1,14 +1,15 @@
 import React from 'react'
-import  { NavLink } from "react-router-dom";
+import  { NavLink, useParams, useRouteMatch } from "react-router-dom";
 import logo from "../logo.png";
 import SearchIcon from '@material-ui/icons/Search';
 import "./Navbar.css"
 
 const Navbar = () => {
+
     return ( 
     <div className="navbar">
         <div className="links__left links">
-            <NavLink to="">Explore</NavLink>
+            <NavLink to={`/`}>Explore</NavLink>
             <NavLink to="/prediction">Start a Prediction</NavLink>
         </div> 
         <div className="links__center links">

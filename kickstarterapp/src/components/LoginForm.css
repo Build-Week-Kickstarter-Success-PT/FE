@@ -62,6 +62,14 @@ input:focus {
   background-color: #037362;
 }
 
+.Submit__Btn:disabled {
+  background-color: gray;
+}
+
+.Submit__Btn:disabled:hover {
+  background-color: gray;
+}
+
 a {
   color: #2752ff;
   text-decoration: none;
