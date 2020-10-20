@@ -7,6 +7,7 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import gsap from "gsap";
 import "./userContent.css";
 import PredictionForm from "../components/PredictionForm";
+import Campaign from "../components/Campaign";
 
 function UserContent(props) {
   const [campaign, setCampaign] = useState([]);
@@ -20,7 +21,7 @@ function UserContent(props) {
     axiosWithAuth()
       .get(`/api/users/${user_id.id}/campaigns`)
       .then((res) => {
-        console.log(res);
+        console.log(res.data);
         setCampaign(res.data);
         console.log(campaign);
       })
@@ -36,10 +37,12 @@ function UserContent(props) {
   }, []);
 
   return (
-    <div>
-      <Route exact path={`${urlParams.path}/prediction`}>
-        <PredictionForm />
-      </Route>
+    <div style={{ display: "flex" }}>
+      <Route
+        exact
+        path={`${urlParams.path}/prediction`}
+        component={PredictionForm}
+      />
       <Link to={`${urlParams.url}/prediction`}>
         {" "}
         <AddCircleOutlineIcon
@@ -49,6 +52,24 @@ function UserContent(props) {
           Make Prediction
         </AddCircleOutlineIcon>{" "}
       </Link>
+      <div
+        style={{
+          marginLeft: "100px",
+          display: "flex",
+          flexWrap: "wrap",
+          flexDirection: "row",
+          justifyContent: "space-between"
+        }}
+      >
+        {campaign.map((cam, i) => {
+          return (
+            <div key={i} style={{ order: campaign.length - i }}>
+              <Campaign campaign={cam}  />
+              {/* <pre>{JSON.stringify(cam, 2, null)}</pre> */}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 
