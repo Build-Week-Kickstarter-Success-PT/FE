@@ -17,15 +17,13 @@ export const GlobalProvider = ({ children }) => {
   const history = useHistory();
   
 
-  const id = useParams();
-  const campaign = useParams();
 
   function createCampaign(campaign) {
     axiosWithAuth()
       .post(`/api/users/${campaign.user_id}`, campaign)
       .then((res) => {
         console.log(res);
-        history.push(`/user/${res.data.user_id}/campaigns`);
+        history.push(`/user/${res.data.user_id}`);
       })
       .catch((err) => console.error("bk: Prediction: Error: ", err.message));
     dispatch({

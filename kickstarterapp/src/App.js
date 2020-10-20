@@ -25,7 +25,7 @@ function App() {
         <Switch>
           <Route path="/login" component={LoginForm} />
           <Route path="/signup" component={SignUpForm} />
-        {state.currentCampaign  === null ?  (<User exact path="/user/:id/campaigns" component={UserContent} />
+        {state.currentCampaign  === null ?  (<User exact path="/user/:id" component={UserContent} />
          ): <EditCampaign/> } 
          <Route exact path="/user/:id/campaigns/:campaign_id" component={Campaign} />
           <User exact path="/user/:id/prediction" component={PredictionForm} />
