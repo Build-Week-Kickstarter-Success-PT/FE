@@ -8,14 +8,14 @@ const LoginForm = () => {
   const history = useHistory();
 
   const [user, setUser] = useState({
-    name: "",
+    
     email: "",
     password: "",
   });
 
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [errors, setErrors] = useState({
-    name: "",
+    
     email: "",
     password: "",
   });
@@ -75,14 +75,6 @@ const LoginForm = () => {
       <div className="Login__InnerBox">
         <h3 className="Component__Title">Log in</h3>
         <form className="Login__Form" onSubmit={handleSubmit}>
-          <input
-            type="username"
-            placeholder="Username"
-            name="name"
-            value={user.name}
-            onChange={handleChange}
-          />
-          <p className="errors">{errors.name}</p>
           <input
             type="email"
             placeholder="Email"
