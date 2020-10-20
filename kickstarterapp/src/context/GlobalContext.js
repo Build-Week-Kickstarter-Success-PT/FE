@@ -1,20 +1,24 @@
-import React, { useReducer } from "react";
+import React, { useContext, useReducer } from "react";
 import {
   CampaignReducer,
   KickStartContext,
-  initialState,
   ADD_CAMPAIGN,
   DELETE_CAMPAIGN,
-  EDIT_CAMPAIGN,
+  EDIT_CAMPAIGN
 } from "./index";
-import { axiosWithAuth, setToken } from "../utils";
-import { useHistory } from "react-router-dom";
+import { axiosWithAuth } from "../utils";
+import { useHistory, useParams } from "react-router-dom";
 
 export const GlobalProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(CampaignReducer, initialState);
+
+  const updateContext = useContext(KickStartContext);
+  const [state, dispatch] = useReducer(CampaignReducer, updateContext);
 
   const history = useHistory();
   
+
+  const id = useParams();
+  const campaign = useParams();
 
   function createCampaign(campaign) {
     axiosWithAuth()
@@ -30,7 +34,7 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
-  function deleteCampaign(id) {
+  function deleteCampaign({id}) {
       axiosWithAuth().delete(` /api/users/${id.user_id}/campaigns/${id.campaign_id}`)
       .then((res) => {
             console.log(res) 
@@ -42,7 +46,7 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
-  function editCampaign(campaign) {
+  function editCampaign({campaign}) {
 
     axiosWithAuth().put(`/api/users/${campaign.user_id}/campaigns/${campaign.campaign_id}`, campaign)
     .then((res) => {
@@ -64,6 +68,8 @@ export const GlobalProvider = ({ children }) => {
         createCampaign,
         editCampaign,
         deleteCampaign,
+        dispatch,
+        state
       }}
     >
       {children}

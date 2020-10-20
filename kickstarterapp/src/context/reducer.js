@@ -1,6 +1,7 @@
 export const ADD_CAMPAIGN = "ADD_CAMPAIGN";
 export const EDIT_CAMPAIGN = "EDIT_CAMPAIGN";
 export const DELETE_CAMPAIGN = "DELETE_CAMPAIGN";
+export const SET_CURRENT_CAMPAIGN = "SET_CURRENT_CAMPAIGN";
 
 
 export function CampaignReducer(state, action){
@@ -38,7 +39,12 @@ export function CampaignReducer(state, action){
                 return {
                     currentCampaign: null,
                     campaign: updatedCam
-                }
+                };
+        case SET_CURRENT_CAMPAIGN:
+                return {
+                    ...state,
+                    currentCampaign: action.payload
+                };
         default:
             return state;
     }

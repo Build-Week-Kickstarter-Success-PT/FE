@@ -15,7 +15,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
-import { KickStartContext } from "../context";
+import { KickStartContext, SET_CURRENT_CAMPAIGN, DELETE_CAMPAIGN } from "../context";
 import {useRouteMatch, useParams, Link} from 'react-router-dom';
 
 
@@ -58,7 +58,7 @@ const Campaign = ({ campaign }) => {
   const uid = useRouteMatch("user/:id");
    const cid = useRouteMatch("campaigns/:campaign_id");
 
-  const {deleteCampaign, editCampaign} = useContext(KickStartContext);
+  const {dispatch} = useContext(KickStartContext);
 
 
   console.log(campaign);
@@ -110,10 +110,10 @@ const Campaign = ({ campaign }) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="Edit" onClick={() => editCampaign(campaign.campaign_id)}>
+        <IconButton aria-label="Edit" onClick={() => dispatch({type: SET_CURRENT_CAMPAIGN, payload: campaign.campaign})}>
           <EditIcon  />
         </IconButton>
-        <IconButton aria-label="Delete" onClick={() => deleteCampaign(campaign.campaign_id)}>
+        <IconButton aria-label="Delete" onClick={() => dispatch({type: DELETE_CAMPAIGN, payload: campaign.campaign_id})}>
           <DeleteIcon  />
         </IconButton>
         {/* <IconButton aria-label="">
