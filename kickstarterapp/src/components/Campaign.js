@@ -1,5 +1,5 @@
   
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -15,6 +15,9 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
+import { KickStartContext } from "../context";
+import {useRouteMatch, useParams, Link} from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,6 +53,13 @@ var formatter = new Intl.NumberFormat('en-US', {
 const Campaign = ({ campaign }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
+
+
+  const uid = useRouteMatch("user/:id");
+   const cid = useRouteMatch("campaigns/:campaign_id");
+
+  const {deleteCampaign, editCampaign} = useContext(KickStartContext);
+
 
   console.log(campaign);
 
@@ -100,11 +110,11 @@ const Campaign = ({ campaign }) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="Edit">
-          <EditIcon />
+        <IconButton aria-label="Edit" onClick={() => editCampaign(campaign.campaign_id)}>
+          <EditIcon  />
         </IconButton>
-        <IconButton aria-label="Delete">
-          <DeleteIcon />
+        <IconButton aria-label="Delete" onClick={() => deleteCampaign(campaign.campaign_id)}>
+          <DeleteIcon  />
         </IconButton>
         {/* <IconButton aria-label="">
           <ThumbUpIcon style={{ color: "#028858" }} />

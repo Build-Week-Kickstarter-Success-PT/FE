@@ -62,7 +62,7 @@ const LoginForm = () => {
       .post("/api/auth/login", credentials)
       .then((res) => {
         setToken(res.data.token);
-        history.push(`/user/${res.data.auth.id}`);
+        history.push(`/user/${res.data.auth.id}/campaigns`);
         console.log(res);
       })
       .catch((err) =>

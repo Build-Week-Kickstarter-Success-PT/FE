@@ -19,6 +19,7 @@ function UserContent(props) {
 
 
   const user_id = useParams();
+  const cid = useRouteMatch();
   const urlParams = useRouteMatch();
 
   useEffect(() => {
@@ -68,14 +69,14 @@ function UserContent(props) {
           justifyContent: "space-between"
         }}
       >
-        {campaign.map((cam, i) => {
+      {campaign.map((cam, i) => {
           return (
-            <div key={i} style={{ order: campaign.length - i }}>
+             <div key={i} style={{ order: campaign.length - i }}>
               <Campaign campaign={cam}  />
               {/* <pre>{JSON.stringify(cam, 2, null)}</pre> */}
             </div>
           );
-        })}
+        })} 
       </div>
     </div>
   );
