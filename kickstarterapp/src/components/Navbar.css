@@ -1,49 +1,57 @@
 .navbar {
-    display: flex;
-    box-sizing: border-box;
-    height: 66px;
-    background-color: white;
-    border-bottom: 0.1rem solid #DCDEDD;
-    font-size: 1rem;
-    line-height: 1.5;
-    font-family: "Maison Neue Book", "Helvetica Neue", Helvetica, Arial, "Liberation Sans", FreeSans, sans-serif;
+  display: flex;
+  box-sizing: border-box;
+  height: 66px;
+  background-color: white;
+  border-bottom: 0.1rem solid #dcdedd;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-family: "Maison Neue Book", "Helvetica Neue", Helvetica, Arial,
+    "Liberation Sans", FreeSans, sans-serif;
 }
 
 .links {
-    display: flex;
+  display: flex;
 }
 
 .links a {
-    color: #282828;
-    text-decoration: none;
-    padding: 5px;
-    margin: 15px 0 0 10px;
+  color: #282828;
+  text-decoration: none;
+  padding: 5px;
+  margin: 15px 0 0 10px;
+}
+
+.welcome {
+  color: #282828;
+  text-decoration: none;
+  padding: 5px;
+  margin: 15px 0 0 10px;
 }
 
 .links a:hover {
-    color: #037362;
+  color: #037362;
 }
 
 .links__left {
-    flex-grow: .33;
+  flex-grow: 0.33;
 }
 
 .links__center {
-    margin-top: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex-grow: .33;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 0.33;
 }
 
 .links__center img {
-    width: 177px;
+  width: 177px;
 }
 
 .links__right {
-    justify-content: flex-end;
-    align-items: flex-start;
-    flex-grow: .33;
-    margin-left: 10px;
+  justify-content: flex-end;
+  align-items: flex-start;
+  flex-grow: 0.33;
+  margin-left: 10px;
 }
