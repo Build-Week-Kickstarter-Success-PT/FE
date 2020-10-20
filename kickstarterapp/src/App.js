@@ -7,9 +7,8 @@ import LoginForm from "./components/loginForm";
 import SignUpForm from "./components/SignUpForm";
 import PredictionForm from "./components/PredictionForm";
 import User from "./protected/user";
-import UserContent from "./pages/userContent";
-
 import {GlobalProvider} from './context';
+import UserContent from "./pages/userContent";
 
 
 function App() {

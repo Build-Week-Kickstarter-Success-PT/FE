@@ -1,7 +1,7 @@
-import React, {useEffect, useState, useContext} from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React, {useEffect, useContext, useState} from 'react';
 import { KickStartContext } from '../context';
 import {axiosWithAuth} from '../utils';
+import {useParams} from 'react-router-dom';
 
 
 
@@ -9,26 +9,36 @@ function UserContent() {
 
 
     
-    const [campaign, setCampaign] = useState([]);
 
-    const {state, dispatch} = useContext(KickStartContext);
+    const {campaign} = useContext(KickStartContext);
+    const [campaignData, setCampaignData] = useState([])
+    const {uid} = useParams();
 
-        const user_id = useParams()
+  
+
+    console.log(campaign)
+   
 
     useEffect(() => {
         
-        axiosWithAuth().get(`/api/users/${user_id.id}/campaigns`)
+        axiosWithAuth().get(`/api/users/${uid}/campaigns`)
         .then(res => {
             console.log(res.data);
-                setCampaign(res.data);
+            setCampaignData(res.data)
         })
         .catch(error => console.log("Unable to fetch data: ", error))
     
     }, [])
+
+  
   
     return (
         <div>
-           <Link to="/prediction"> <button>Make Prediction</button> </Link>
+     {campaignData.map((cam) => (
+         <div>
+             {cam.campaign_name}
+         </div>
+     ))}
         </div>
     )
 }
