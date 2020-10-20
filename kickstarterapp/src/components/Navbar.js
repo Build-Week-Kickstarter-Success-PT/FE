@@ -1,28 +1,89 @@
-import React from 'react'
-import  { NavLink, useParams, useRouteMatch } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink, useParams, useRouteMatch } from "react-router-dom";
 import logo from "../logo.png";
-import SearchIcon from '@material-ui/icons/Search';
-import "./Navbar.css"
+import SearchIcon from "@material-ui/icons/Search";
+import "./Navbar.css";
 
-const Navbar = () => {
+const Navbar = ({ user }) => {
+  const [loggedUser, setLoggedUser] = useState("");
 
-    return ( 
-    <div className="navbar">
+  useEffect(() => {
+    setLoggedUser(user);
+  }, [user]);
+
+  if (loggedUser !== "") {
+    return (
+      <div className="navbar">
         <div className="links__left links">
-            <NavLink to={`/`}>Explore</NavLink>
-            <NavLink to="/prediction">Start a Prediction</NavLink>
-        </div> 
+          <NavLink exact to={`/user/${user.id}`}>
+            Explore
+          </NavLink>
+          <NavLink exact to={`/user/${user.id}/prediction`}>
+            Start a Prediction
+          </NavLink>
+        </div>
         <div className="links__center links">
-            <img src={logo} alt="Kickstarter Success Predictor" />
-            <h2>Success Predictor</h2>
-        </div> 
+          <img src={logo} alt="Kickstarter Success Predictor" />
+          <h2>Success Predictor</h2>
+        </div>
         <div className="links__right links">
-            <NavLink to="" style={{display:"flex", marginRight:"5px"}}><div>Search</div><SearchIcon style={{ fontSize: 17 , marginLeft: "5px", marginTop:"3px" }} /></NavLink>
-            <NavLink to="/login">Log in</NavLink>
-            <NavLink to="/signup">Register</NavLink>
-        </div> 
-    </div>
-    )
-}
+          <NavLink
+            exact
+            to={`/user/${user.id}`}
+            style={{ display: "flex", marginRight: "5px" }}
+          >
+            <div>Search</div>
+            <SearchIcon
+              style={{ fontSize: 17, marginLeft: "5px", marginTop: "3px" }}
+            />
+          </NavLink>
+          <div className="welcome">
+            Welcome{" "}
+            <span
+              style={{
+                textTransform: "capitalize",
+                fontWeight: "600",
+                color: "#037362",
+              }}
+            >
+              {user.name}
+            </span>{" "}
+          </div>
+          <NavLink
+            to="/login"
+            onClick={() => {
+              setLoggedUser("");
+            }}
+          >
+            Log out
+          </NavLink>
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div className="navbar">
+        <div className="links__left links">
+          <NavLink to="/login">Explore</NavLink>
+          <NavLink to="/login">Start a Prediction</NavLink>
+        </div>
+        <div className="links__center links">
+          <img src={logo} alt="Kickstarter Success Predictor" />
+          <h2>Success Predictor</h2>
+        </div>
+        <div className="links__right links">
+          <NavLink to="/login" style={{ display: "flex", marginRight: "5px" }}>
+            <div>Search</div>
+            <SearchIcon
+              style={{ fontSize: 17, marginLeft: "5px", marginTop: "3px" }}
+            />
+          </NavLink>
+          <NavLink to="/login">Log in</NavLink>
+          <NavLink to="/signup">Sign up</NavLink>
+        </div>
+      </div>
+    );
+  }
+};
 
-export default Navbar
+export default Navbar;
