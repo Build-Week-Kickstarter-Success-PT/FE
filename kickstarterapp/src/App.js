@@ -9,6 +9,10 @@ import PredictionForm from "./components/PredictionForm";
 import User from "./protected/user";
 
 
+
+import { GlobalProvider } from "./context";
+import Campaign from "./components/Campaign";
+
 function App() {
 
 
