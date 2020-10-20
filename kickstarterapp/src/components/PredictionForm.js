@@ -6,23 +6,8 @@ import "./PredictionForm.css";
 import { KickStartContext } from "../context";
 
 const PredictionForm = () => {
-  const [category, setCategories] = useState([
-    "Art",
-    "Comics",
-    "Crafts",
-    "Dance",
-    "Design",
-    "Fashion",
-    "Film & Video",
-    "Food",
-    "Games",
-    "Journalism",
-    "Music",
-    "Photography",
-    "Publishing",
-    "Technology",
-    "Theater",
-  ]);
+  const userId = useParams();
+  const [category, setCategories] = useState("Select Category");
 
   const [campaign_name, setCampaignName] = useState("");
   const [goal, setGoal] = useState("");
@@ -142,13 +127,13 @@ const PredictionForm = () => {
             value={category}
             multiple={false}
             className="Categories"
-            // style={{
-            //   color:
-            //     prediction.category === "Select Category" ? "gray" : "#282828",
-            // }}
+            style={{
+              color:
+                category === "Select Category" ? "gray" : "#282828",
+            }}
             onChange={(e) => setCategories(e.target.value)}
           >
-            <option defaultValue="Select Category">Select Category</option>
+            <option disabled defaultValue="Select Category">Select Category</option>
             <option value="Comics">Comics</option>
             <option value="Crafts">Crafts</option>
             <option value="Dance">Dance</option>

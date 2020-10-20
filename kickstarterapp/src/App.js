@@ -15,8 +15,6 @@ import UserContent from './pages/userContent';
 
 
 function App() {
-
-
   return (
     <GlobalProvider>
       <div className="app">
