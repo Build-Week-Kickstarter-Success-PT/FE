@@ -1,21 +1,21 @@
 import React, {useReducer} from 'react';
-import {CampaignReducer, KickStartContext, initialState, ADD_CAMPAIGN, DELETE_CAMPAIGN, EDIT_CAMPAIGN } from './index';
+import {CampaignReducer, KickStartContext, ADD_CAMPAIGN, DELETE_CAMPAIGN, EDIT_CAMPAIGN } from './index';
 import {axiosWithAuth, setToken} from '../utils';
 import { useHistory, useParams } from 'react-router-dom';
 
 
 
 export const GlobalProvider = ({ children }) => {
-    const [ state, dispatch ] = useReducer(CampaignReducer , initialState);
-  const id = useParams();
-        const history = useHistory();
+    const [ state, dispatch ] = useReducer(CampaignReducer , KickStartContext);
+  const {user_id} = useParams();
+const history = useHistory();
 
     function createCampaign(campaign){
-        axiosWithAuth().post(`/api/users/${id.user_id}/campaigns`, campaign)
+        axiosWithAuth().post(`/api/users/${user_id}/campaigns`, campaign)
      .then(res => {
        setToken(res.data.token);
-       history.push("/user/:id");
-         console.log(res);
+       history.push(`/user/${user_id}`);
+         console.log(res.data);
      })  
      .catch(err =>
        console.error("bk: Prediction: Error: ", err.message)
