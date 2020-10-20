@@ -16,7 +16,6 @@ const PredictionForm = () => {
 
   const { campaign, createCampaign } = useContext(KickStartContext);
 
-  const userId = useParams();
 
   const handleSubmit = (e) => {
     e.preventDefault();
