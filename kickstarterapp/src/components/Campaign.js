@@ -1,5 +1,4 @@
-  
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -15,9 +14,6 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
-import { KickStartContext, SET_CURRENT_CAMPAIGN, DELETE_CAMPAIGN } from "../context";
-import {useRouteMatch, useParams, Link} from 'react-router-dom';
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,9 +37,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // Create our number formatter.
-var formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
+var formatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
 
   // These options are needed to round to whole numbers if that's what you want.
   //minimumFractionDigits: 0,
@@ -54,15 +50,6 @@ const Campaign = ({ campaign }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
 
-
-  const uid = useRouteMatch("user/:id");
-   const cid = useRouteMatch("campaigns/:campaign_id");
-
-  const {dispatch} = useContext(KickStartContext);
-
-
-  console.log(campaign);
-
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -70,9 +57,9 @@ const Campaign = ({ campaign }) => {
   return (
     <Card className={classes.root}>
       <CardHeader
-        title="SUCCESS"
+        title={campaign.prediction === 1 ? "SUCCESS" : "FAIL"}
         style={{
-          backgroundColor: "#028858",
+          backgroundColor: campaign.prediction === 1 ? "#028858" : "red",
           color: "white",
           textAlign: "center",
         }}
@@ -108,13 +95,29 @@ const Campaign = ({ campaign }) => {
         >
           Category: {campaign.category}
         </Typography>
+        <Typography
+          style={{ paddingBottom: "15px" }}
+          variant="body2"
+          color="textSecondary"
+          component="p"
+        >
+          Sub Category: {campaign.sub_category}
+        </Typography>
+        <Typography
+          style={{ paddingBottom: "15px" }}
+          variant="body2"
+          color="textSecondary"
+          component="p"
+        >
+          Country: {campaign.country}
+        </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="Edit" onClick={() => dispatch({type: SET_CURRENT_CAMPAIGN, payload: campaign.campaign})}>
-          <EditIcon  />
+        <IconButton aria-label="Edit">
+          <EditIcon />
         </IconButton>
-        <IconButton aria-label="Delete" onClick={() => dispatch({type: DELETE_CAMPAIGN, payload: campaign.campaign_id})}>
-          <DeleteIcon  />
+        <IconButton aria-label="Delete">
+          <DeleteIcon />
         </IconButton>
         {/* <IconButton aria-label="">
           <ThumbUpIcon style={{ color: "#028858" }} />

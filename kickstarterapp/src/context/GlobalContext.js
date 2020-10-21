@@ -4,10 +4,12 @@ import {
   KickStartContext,
   ADD_CAMPAIGN,
   DELETE_CAMPAIGN,
-  EDIT_CAMPAIGN
+  EDIT_CAMPAIGN,
+  SET_CURRENT_CAMPAIGN
 } from "./index";
 import { axiosWithAuth } from "../utils";
 import { useHistory, useParams } from "react-router-dom";
+import { AccordionActions } from "@material-ui/core";
 
 export const GlobalProvider = ({ children }) => {
 
@@ -17,6 +19,19 @@ export const GlobalProvider = ({ children }) => {
   const history = useHistory();
   
 
+  function setCurrentCampaign(id, cid, campaign) {
+      axiosWithAuth()
+      .get(`/api/users/${id.user_id}/campaigns/${cid.campaign_id}`)
+      .then(res => {
+          console.log(res);
+      })
+      .catch(err => console.error("Issue fetching campaign: ", err))
+
+      dispatch({
+          type: SET_CURRENT_CAMPAIGN,
+          currentCampaign: campaign
+      })
+  }
 
   function createCampaign(campaign) {
     axiosWithAuth()
@@ -32,23 +47,24 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
-  function deleteCampaign({id}) {
-      axiosWithAuth().delete(` /api/users/${id.user_id}/campaigns/${id.campaign_id}`)
+  function deleteCampaign(id, cid) {
+      axiosWithAuth().delete(` /api/users/${id.user_id}/campaigns/${cid.campaign_id}`)
       .then((res) => {
             console.log(res) 
             history.push(`/user/${res.data.user_id}`);
       }).catch(err => console.error('Delete Request Error: ', err))
      dispatch({
       type: DELETE_CAMPAIGN,
-      payload: id.campaign_id,
+      payload: cid.campaign_id,
     });
   }
 
-  function editCampaign({campaign}) {
+  function editCampaign(id, cid, campaign) {
 
-    axiosWithAuth().put(`/api/users/${campaign.user_id}/campaigns/${campaign.campaign_id}`, campaign)
+    axiosWithAuth().put(`/api/users/${id.user_id}/campaigns/${cid.campaign_id}`, campaign)
     .then((res) => {
         console.log(res)
+        setCurrentCampaign(res.data.user_id, res.data.campaign_id)
         history.push(`/user/${res.data.user_id}/campaigns/${res.data.campaign_id}`);
         
     })

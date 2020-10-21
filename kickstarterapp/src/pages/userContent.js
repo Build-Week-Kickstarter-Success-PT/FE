@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useContext } from "react";
 import { Link, Route, useParams, useRouteMatch } from "react-router-dom";
 import { axiosWithAuth } from "../utils";
@@ -9,17 +8,15 @@ import PredictionForm from "../components/PredictionForm";
 
 import { KickStartContext } from "../context";
 
-import Campaign from '../components/Campaign';
-
+import Campaign from "../components/Campaign";
 
 function UserContent(props) {
   const [campaign, setCampaign] = useState([]);
+  const [campaignsWithPredictions, setCampaignsWithPredictions] = useState([]);
 
   const { state, dispatch } = useContext(KickStartContext);
 
-
   const user_id = useParams();
-  const cid = useRouteMatch();
   const urlParams = useRouteMatch();
 
   useEffect(() => {
@@ -28,11 +25,39 @@ function UserContent(props) {
       .then((res) => {
         console.log(res.data);
         setCampaign(res.data);
-        console.log(campaign);
       })
+      // axiosWithAuth()
+      //   .post(
+      //     `/api/users/${user_id.id}/campaigns/${campaign.campaign_id}/prediction`,
+      //     {
+      //       goal: campaign.goal,
+      //       campaign_length: campaign.campaign_length,
+      //       category: campaign.category,
+      //       sub_category: campaign.sub_category,
+      //       country: campaign.country,
+      //     }
+      //   )
+      //   .then((res) => {
+      //     setCampaignsWithPredictions([
+      //       ...campaignsWithPredictions,
+      //       {
+      //         ...campaign,
+      //         prediction: res.prediction,
+      //       },
+      //     ]);
+      //   })
+      //   .catch((error) => {
+      //     console.log("Unable to get Prediction", error);
+      //     setCampaignsWithPredictions([
+      //       ...campaignsWithPredictions,
+      //       {
+      //         ...campaign,
+      //         prediction: 0,
+      //       },
+      //     ]);
+      //   });
       .catch((error) => console.log("Unable to fetch data: ", error));
   }, []);
-
 
   useEffect(() => {
     gsap.to(".Add__Button", {
@@ -42,8 +67,14 @@ function UserContent(props) {
     });
   }, []);
 
-  return (
+  useEffect(() => {
+    const listOfCampaigns = [];
+    campaign.forEach((cam) => {
+      listOfCampaigns.concat({ ...cam, prediction: 0 });
+    });
+  }, [campaign]);
 
+  return (
     <div style={{ display: "flex" }}>
       <Route
         exact
@@ -66,21 +97,19 @@ function UserContent(props) {
           display: "flex",
           flexWrap: "wrap",
           flexDirection: "row",
-          justifyContent: "space-between"
+          justifyContent: "space-between",
         }}
       >
-      {campaign.map((cam, i) => {
+        {campaign.map((cam, i) => {
           return (
-             <div key={i} style={{ order: campaign.length - i }}>
-              <Campaign campaign={cam}  />
-              {/* <pre>{JSON.stringify(cam, 2, null)}</pre> */}
+            <div key={i} style={{ order: campaign.length - i }}>
+              <Campaign campaign={cam} />
             </div>
           );
-        })} 
+        })}
       </div>
     </div>
   );
-
 }
 
 export default UserContent;

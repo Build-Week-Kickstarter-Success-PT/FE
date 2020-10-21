@@ -4,29 +4,26 @@ import * as yup from "yup";
 import "./LoginForm.css";
 import { axiosWithAuth, setToken } from "../utils";
 
-const LoginForm = () => {
+const LoginForm = (props) => {
   const history = useHistory();
 
   const [user, setUser] = useState({
-
     email: "",
     password: "",
   });
 
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [errors, setErrors] = useState({
-
     email: "",
     password: "",
   });
 
   let schema = yup.object().shape({
-
     email: yup
       .string()
       .required("Please provide an email")
       .email("This is not a valid email")
-      .required("Enter a monetary goal"),
+      .required("Email is required"),
     password: yup.string().min(5).required("You need to enter a password"),
   });
 
@@ -62,8 +59,8 @@ const LoginForm = () => {
       .post("/api/auth/login", credentials)
       .then((res) => {
         setToken(res.data.token);
+        props.setLoggedUser(res.data.auth);
         history.push(`/user/${res.data.auth.id}`);
-        console.log(res);
       })
       .catch((err) =>
         console.error("bk: Login.js: login: err.message: ", err.message)
