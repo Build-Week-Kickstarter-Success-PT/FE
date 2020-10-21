@@ -57,9 +57,9 @@ const Campaign = ({ campaign }) => {
   return (
     <Card className={classes.root}>
       <CardHeader
-        title="SUCCESS"
+        title={campaign.prediction === 1 ? "SUCCESS" : "FAIL"}
         style={{
-          backgroundColor: "#028858",
+          backgroundColor: campaign.prediction === 1 ? "#028858" : "red",
           color: "white",
           textAlign: "center",
         }}
@@ -101,7 +101,7 @@ const Campaign = ({ campaign }) => {
           color="textSecondary"
           component="p"
         >
-          Sub Category: {/*campaign.subCategory*/}
+          Sub Category: {campaign.sub_category}
         </Typography>
         <Typography
           style={{ paddingBottom: "15px" }}
@@ -109,7 +109,7 @@ const Campaign = ({ campaign }) => {
           color="textSecondary"
           component="p"
         >
-          Country: {/*campaign.country*/}
+          Country: {campaign.country}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

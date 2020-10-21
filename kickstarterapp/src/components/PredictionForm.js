@@ -9,7 +9,7 @@ const PredictionForm = () => {
   const userId = useParams();
 
   const [category, setCategory] = useState("Select Category");
-  const [subCategory, setSubCategory] = useState("Select Sub Category");
+  const [sub_category, setSubCategory] = useState("Select Sub Category");
   const [country, SetCountry] = useState("Select Country");
   const [campaign_name, setCampaignName] = useState("");
   const [goal, setGoal] = useState("");
@@ -29,6 +29,8 @@ const PredictionForm = () => {
       description,
       campaign_length,
       category,
+      sub_category,
+      country,
       user_id: userId.id,
     };
     createCampaign(campaignNew);
@@ -374,11 +376,12 @@ const PredictionForm = () => {
           <select
             name="subCategory"
             disabled={subCategoryDisabled}
-            value={subCategory}
+            value={sub_category}
             multiple={false}
             className="Categories"
             style={{
-              color: subCategory === "Select Sub Category" ? "gray" : "#282828",
+              color:
+                sub_category === "Select Sub Category" ? "gray" : "#282828",
             }}
             onChange={(e) => setSubCategory(e.target.value)}
           >
