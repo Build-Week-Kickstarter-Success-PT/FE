@@ -19,4 +19,6 @@ export const initialState = {
 
 export const KickStartContext = createContext(initialState);
 
+
 export default KickStartContext;
+
