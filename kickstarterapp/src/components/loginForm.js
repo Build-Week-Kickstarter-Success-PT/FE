@@ -23,7 +23,7 @@ const LoginForm = (props) => {
       .string()
       .required("Please provide an email")
       .email("This is not a valid email")
-      .required("Enter a monetary goal"),
+      .required("Email is required"),
     password: yup.string().min(5).required("You need to enter a password"),
   });
 
