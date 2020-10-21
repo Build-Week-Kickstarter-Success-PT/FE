@@ -1,4 +1,5 @@
 .navbar {
+
   display: flex;
   box-sizing: border-box;
   height: 66px;
@@ -55,3 +56,4 @@
   flex-grow: 0.33;
   margin-left: 10px;
 }
+
