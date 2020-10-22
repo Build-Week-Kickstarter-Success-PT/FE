@@ -51,6 +51,25 @@ var formatter = new Intl.NumberFormat("en-US", {
 const Campaign = ({ campaign }) => {
   const user_id = useParams();
   const [prediction, setPrediction] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  const renderStatusMessage = () => {
+    if (!loading) {
+      if (prediction === 1) return "SUCCESS";
+      else if (prediction === 0) return "FAIL";
+      else return "Can't get Prediction!";
+    }
+    return "PREDICTING...";
+  };
+
+  const renderStatusBackgroundColor = () => {
+    if (!loading) {
+      if (prediction === 1) return "#028858";
+      else if (prediction === 0) return "red";
+      else return "purple";
+    }
+    return "grey";
+  };
 
   useEffect(() => {
     axiosWithAuth()
@@ -67,9 +86,12 @@ const Campaign = ({ campaign }) => {
       .then((res) => {
         console.log(res);
         setPrediction(res.data.prediction);
+        setLoading(false);
       })
       .catch((error) => {
         console.log("Unable to get Prediction", error);
+        setPrediction(null);
+        setLoading(false);
       });
   }, [campaign]);
 
@@ -83,9 +105,9 @@ const Campaign = ({ campaign }) => {
   return (
     <Card className={classes.root}>
       <CardHeader
-        title={prediction === 1 ? "SUCCESS" : "FAIL"}
+        title={renderStatusMessage()}
         style={{
-          backgroundColor: prediction === 1 ? "#028858" : "red",
+          backgroundColor: renderStatusBackgroundColor(),
           color: "white",
           textAlign: "center",
         }}
