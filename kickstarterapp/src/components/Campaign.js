@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { axiosWithAuth } from "../utils";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -14,6 +15,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
+import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +49,30 @@ var formatter = new Intl.NumberFormat("en-US", {
 });
 
 const Campaign = ({ campaign }) => {
+  const user_id = useParams();
+  const [prediction, setPrediction] = useState(0);
+
+  useEffect(() => {
+    axiosWithAuth()
+      .post(
+        `/api/users/${user_id.id}/campaigns/${campaign.campaign_id}/prediction`,
+        {
+          goal: campaign.goal,
+          campaign_length: campaign.campaign_length,
+          category: campaign.category,
+          sub_category: campaign.sub_category,
+          country: campaign.country,
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        setPrediction(res.data.prediction);
+      })
+      .catch((error) => {
+        console.log("Unable to get Prediction", error);
+      });
+  }, [campaign]);
+
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
 
@@ -57,18 +83,18 @@ const Campaign = ({ campaign }) => {
   return (
     <Card className={classes.root}>
       <CardHeader
-        title={campaign.prediction === 1 ? "SUCCESS" : "FAIL"}
+        title={prediction === 1 ? "SUCCESS" : "FAIL"}
         style={{
-          backgroundColor: campaign.prediction === 1 ? "#028858" : "red",
+          backgroundColor: prediction === 1 ? "#028858" : "red",
           color: "white",
           textAlign: "center",
         }}
       />
       {/* <CardMedia
-        className={classes.media}
-        image="https://images.unsplash.com/photo-1497515114629-f71d768fd07c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1362&q=80"
-        title="Coffee"
-      /> */}
+          className={classes.media}
+          image="https://images.unsplash.com/photo-1497515114629-f71d768fd07c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1362&q=80"
+          title="Coffee"
+        /> */}
       <CardHeader title={campaign.campaign_name} />
       <CardContent>
         <Typography
@@ -120,11 +146,11 @@ const Campaign = ({ campaign }) => {
           <DeleteIcon />
         </IconButton>
         {/* <IconButton aria-label="">
-          <ThumbUpIcon style={{ color: "#028858" }} />
-        </IconButton>
-        <IconButton aria-label="">
-          <ThumbDownIcon style={{ color: "red" }} />
-        </IconButton> */}
+            <ThumbUpIcon style={{ color: "#028858" }} />
+          </IconButton>
+          <IconButton aria-label="">
+            <ThumbDownIcon style={{ color: "red" }} />
+          </IconButton> */}
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
