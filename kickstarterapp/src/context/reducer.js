@@ -26,7 +26,7 @@ export function CampaignReducer(state, action){
                 }
 
                 const updatedCampaignIndex = state.campaign.findIndex(
-                    cam => cam.campaign_id === state.currentCampaign.campaign_id
+                    cam => cam.campaign_id === state.campaign_id
                 )
 
                 const updatedCam = [
