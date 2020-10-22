@@ -36,6 +36,16 @@ export const GlobalProvider = ({ children }) => {
   }
 
   function deleteCampaign(id) {
+      console.log(id)
+      axiosWithAuth()
+      .delete(`/api/users/${id.user_id}/campaigns/${id.campaign_id}`)
+      .then(res => {
+          console.log(res.data)
+          history.push(`/user/${res.data.user_id}`)
+      })
+      .catch(err => {
+          console.log(err)
+      })
     dispatch({
       type: DELETE_CAMPAIGN,
       payload: id,

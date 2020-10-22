@@ -64,7 +64,7 @@ const Campaign = ({ campaign }) => {
     setExpanded(!expanded);
   };
 
-  const { editCampaign, user_id, campaign_id, dispatch, state} = useContext(KickStartContext);
+  const { editCampaign, user_id, campaign_id, dispatch, deleteCampaign} = useContext(KickStartContext);
 
 
   const urlParams = useRouteMatch();
@@ -150,9 +150,10 @@ const Campaign = ({ campaign }) => {
        <Link to={`${urlParams.url}/campaigns/${campaign.campaign_id}`} onClick={() => editCampaign(campaign)}>  <IconButton aria-label="Edit">
           <EditIcon />
         </IconButton></Link>
+      <Link to={`${urlParams.url}`} onClick={() => deleteCampaign(campaign) }> 
         <IconButton aria-label="Delete">
           <DeleteIcon />
-        </IconButton>
+        </IconButton></Link>
         {/* <IconButton aria-label="">
           <ThumbUpIcon style={{ color: "#028858" }} />
         </IconButton>
