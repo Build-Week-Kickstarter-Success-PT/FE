@@ -81,6 +81,7 @@ const Campaign = ({ campaign }) => {
           category: campaign.category,
           sub_category: campaign.sub_category,
           country: campaign.country,
+          description: campaign.description,
         }
       )
       .then((res) => {
