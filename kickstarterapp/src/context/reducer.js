@@ -27,11 +27,11 @@ export function CampaignReducer(state, action){
         case EDIT_CAMPAIGN:
                 const updateCampaign = {
                     ...state.currentCampaign,
-                    campaign_id: action.payload
+                    campaign_name: action.payload
                 }
 
                 const updatedCampaignIndex = state.campaign.findIndex(
-                    cam => cam.campaign_id === state.campaign_id
+                    cam => cam.campaign_id === state.campaign.campaign_id
                 )
 
                 const updatedCam = [
