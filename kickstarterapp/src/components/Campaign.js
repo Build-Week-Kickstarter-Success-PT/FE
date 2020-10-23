@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+
+import React, { useEffect, useState, useContext } from "react";
 import { axiosWithAuth } from "../utils";
+
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -15,7 +17,15 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
-import { useParams } from "react-router-dom";
+
+import { Link } from "@material-ui/core";
+
+import {KickStartContext} from '../context';
+import { Route, useRouteMatch } from "react-router-dom";
+import EditCampaign from "./EditCampaign";
+import {axiosWithAuth} from '../utils';
+import userContent from "../pages/userContent";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -99,9 +109,35 @@ const Campaign = ({ campaign }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
 
+
+
+
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  const { editCampaign, user_id, campaign_id, dispatch, deleteCampaign} = useContext(KickStartContext);
+
+
+  const urlParams = useRouteMatch();
+
+  console.log(urlParams);
+
+
+  useEffect(() => {
+    axiosWithAuth()
+    .get(`api/users/${campaign.user_id}/campaigns/${campaign.campaign_id}`)
+    .then(res => {
+        dispatch(res.data);
+        console.log(res.data)
+    })
+    .catch(e => {
+        console.log(e);
+    })
+
+}, [])
+
 
   return (
     <Card className={classes.root}>
@@ -162,10 +198,12 @@ const Campaign = ({ campaign }) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="Edit">
+        <Route exact path={`${urlParams.path}/campaigns/${campaign.campaign_id}`} component={EditCampaign}/>
+        {console.log(`${urlParams.path}/campaigns/${campaign.campaign_id}`)}
+       <Link to={`${urlParams.url}/campaigns/${campaign.campaign_id}`} onClick={() => editCampaign(campaign)}>  <IconButton aria-label="Edit">
           <EditIcon />
-        </IconButton>
-        <IconButton aria-label="Delete">
+        </IconButton></Link>
+        <IconButton aria-label="Delete" onClick={() => deleteCampaign(campaign)}>
           <DeleteIcon />
         </IconButton>
         {/* <IconButton aria-label="">

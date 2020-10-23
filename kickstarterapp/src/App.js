@@ -10,6 +10,7 @@ import User from "./protected/user";
 
 import { GlobalProvider } from "./context";
 import UserContent from "./pages/userContent";
+import EditCampaign from "./components/EditCampaign";
 
 function App() {
   const [loggedUser, setLoggedUser] = useState("");
@@ -25,6 +26,7 @@ function App() {
           <Route path="/signup" component={SignUpForm} />
           <User exact path="/user/:id" component={UserContent} />
           <User exact path="/user/:id/prediction" component={PredictionForm} />
+          <User exact path="/user/:id/edit" component={EditCampaign} />
           <Route exact path="/">
             <LoginForm setLoggedUser={setLoggedUser} />
           </Route>
