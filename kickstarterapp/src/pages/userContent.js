@@ -12,8 +12,6 @@ import Campaign from "../components/Campaign";
 
 function UserContent(props) {
   const [campaign, setCampaign] = useState([]);
-  const [campaignsWithPredictions, setCampaignsWithPredictions] = useState([]);
-
   const { state, dispatch } = useContext(KickStartContext);
 
   const user_id = useParams();
@@ -23,39 +21,8 @@ function UserContent(props) {
     axiosWithAuth()
       .get(`/api/users/${user_id.id}/campaigns`)
       .then((res) => {
-        console.log(res.data);
         setCampaign(res.data);
       })
-      // axiosWithAuth()
-      //   .post(
-      //     `/api/users/${user_id.id}/campaigns/${campaign.campaign_id}/prediction`,
-      //     {
-      //       goal: campaign.goal,
-      //       campaign_length: campaign.campaign_length,
-      //       category: campaign.category,
-      //       sub_category: campaign.sub_category,
-      //       country: campaign.country,
-      //     }
-      //   )
-      //   .then((res) => {
-      //     setCampaignsWithPredictions([
-      //       ...campaignsWithPredictions,
-      //       {
-      //         ...campaign,
-      //         prediction: res.prediction,
-      //       },
-      //     ]);
-      //   })
-      //   .catch((error) => {
-      //     console.log("Unable to get Prediction", error);
-      //     setCampaignsWithPredictions([
-      //       ...campaignsWithPredictions,
-      //       {
-      //         ...campaign,
-      //         prediction: 0,
-      //       },
-      //     ]);
-      //   });
       .catch((error) => console.log("Unable to fetch data: ", error));
   }, []);
 
@@ -66,13 +33,6 @@ function UserContent(props) {
       x: 85,
     });
   }, []);
-
-  useEffect(() => {
-    const listOfCampaigns = [];
-    campaign.forEach((cam) => {
-      listOfCampaigns.concat({ ...cam, prediction: 0 });
-    });
-  }, [campaign]);
 
   return (
     <div style={{ display: "flex" }}>
@@ -103,6 +63,7 @@ function UserContent(props) {
         {campaign.map((cam, i) => {
           return (
             <div key={i} style={{ order: campaign.length - i }}>
+              {/* <pre>{JSON.stringify(cam, null, 2)}</pre> */}
               <Campaign campaign={cam} />
             </div>
           );
