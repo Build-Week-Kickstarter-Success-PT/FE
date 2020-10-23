@@ -1,7 +1,7 @@
 export const ADD_CAMPAIGN = "ADD_CAMPAIGN";
 export const EDIT_CAMPAIGN = "EDIT_CAMPAIGN";
 export const DELETE_CAMPAIGN = "DELETE_CAMPAIGN";
-
+export const SET_CURRENT_CAMPAIGN = "SET_CURRENT_CAMPAIGN";
 
 export function CampaignReducer(state, action){
     switch(action.type){
@@ -18,6 +18,11 @@ export function CampaignReducer(state, action){
             return {
                 ...state,
                 campaign: deletedCampaign
+            }
+        case SET_CURRENT_CAMPAIGN:
+            return {
+                ...state,
+                currentCampaign: action.payload
             }
         case EDIT_CAMPAIGN:
                 const updateCampaign = {

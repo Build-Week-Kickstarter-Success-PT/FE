@@ -5,7 +5,7 @@ import {
   initialState,
   ADD_CAMPAIGN,
   DELETE_CAMPAIGN,
-  EDIT_CAMPAIGN,
+  SET_CURRENT_CAMPAIGN
 } from "./index";
 import { axiosWithAuth, setToken } from "../utils";
 import { useHistory, useParams } from "react-router-dom";
@@ -35,35 +35,42 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
-  function deleteCampaign(id) {
-      console.log(id)
+  function deleteCampaign(campaign) {
+      console.log(campaign)
       axiosWithAuth()
-      .delete(`/api/users/${id.user_id}/campaigns/${id.campaign_id}`)
+      .delete(`/api/users/${campaign.user_id}/campaigns/${campaign.campaign_id}`)
       .then(res => {
           console.log(res.data)
-          history.push(`/user/${res.data.user_id}`)
       })
       .catch(err => {
           console.log(err)
       })
     dispatch({
       type: DELETE_CAMPAIGN,
-      payload: id,
+      payload: campaign.campaign_id,
     });
   }
 
   function editCampaign(campaign) {
       console.log(campaign)
         axiosWithAuth()
-        .put(`/api/users/${campaign.user_id}/campaigns/${campaign.campaign_id}`, campaign)
+        .put(`/api/users/${campaign.user_id}/campaigns/${campaign.campaign_id}`, {
+            campaign_name: campaign.campaign_name,
+            goal: campaign.goal,
+            description: campaign.description,
+            campaign_length: campaign.campaign_length,
+            category: campaign.category,
+            sub_category: campaign.sub_category,
+            country: campaign.sub_category
+        })
         .then(res => {
                 console.log(res.data)
-        })
+                history.push(`/user/${res.data.updatedCampaign.user_id}/edit`);        })
         .catch(e => {
             console.log(e);
         })
         dispatch({
-      type: EDIT_CAMPAIGN,
+      type: SET_CURRENT_CAMPAIGN,
       payload: campaign,
     });
   }

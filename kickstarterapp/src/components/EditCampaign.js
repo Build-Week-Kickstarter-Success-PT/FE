@@ -4,13 +4,15 @@ import  {KickStartContext, EDIT_CAMPAIGN } from '../context';
 export default function EditCampaign() {
 
     const {state, dispatch} = useContext(KickStartContext);
-    const [value, setValue] = useState(state.currentCampaign.campaign)
+    const [value, setValue] = useState(state.currentCampaign.campaign_name)
 
     let ref = useRef();
 
     useEffect(() => {
 
         ref.current.focus();
+
+       
 
     }, [])
 
@@ -22,7 +24,7 @@ export default function EditCampaign() {
 
         event.preventDefault();
 
-        if(value.trim() === '') {
+        if(value === '') {
 
             alert('Cannot add a blank Comment');
         }else {

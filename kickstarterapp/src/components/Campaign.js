@@ -20,6 +20,7 @@ import {KickStartContext} from '../context';
 import { Route, useRouteMatch } from "react-router-dom";
 import EditCampaign from "./EditCampaign";
 import {axiosWithAuth} from '../utils';
+import userContent from "../pages/userContent";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,7 +75,7 @@ const Campaign = ({ campaign }) => {
 
   useEffect(() => {
     axiosWithAuth()
-    .get(`api/users/${user_id.id}/campaigns/${campaign_id.campaign_id}`)
+    .get(`api/users/${campaign.user_id}/campaigns/${campaign.campaign_id}`)
     .then(res => {
         dispatch(res.data);
         console.log(res.data)
@@ -150,10 +151,9 @@ const Campaign = ({ campaign }) => {
        <Link to={`${urlParams.url}/campaigns/${campaign.campaign_id}`} onClick={() => editCampaign(campaign)}>  <IconButton aria-label="Edit">
           <EditIcon />
         </IconButton></Link>
-      <Link to={`${urlParams.url}`} onClick={() => deleteCampaign(campaign) }> 
-        <IconButton aria-label="Delete">
+        <IconButton aria-label="Delete" onClick={() => deleteCampaign(campaign)}>
           <DeleteIcon />
-        </IconButton></Link>
+        </IconButton>
         {/* <IconButton aria-label="">
           <ThumbUpIcon style={{ color: "#028858" }} />
         </IconButton>
