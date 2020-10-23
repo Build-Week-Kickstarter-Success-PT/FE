@@ -64,7 +64,7 @@ function UserContent(props) {
           return (
             <div key={i} style={{ order: campaign.length - i }}>
               {/* <pre>{JSON.stringify(cam, null, 2)}</pre> */}
-              <Campaign campaign={cam} />
+              <Campaign campaign={cam} user={props.user} />
             </div>
           );
         })}
