@@ -8,39 +8,56 @@ import { KickStartContext } from "../context";
 const PredictionForm = () => {
   const userId = useParams();
 
-  const [category, setCategory] = useState("Select Category");
-  const [sub_category, setSubCategory] = useState("Select Sub Category");
-  const [country, SetCountry] = useState("Select Country");
-  const [campaign_name, setCampaignName] = useState("");
-  const [goal, setGoal] = useState("");
-  const [description, setDescription] = useState("");
-  const [campaign_length, setCampaignLength] = useState("");
+  const defaultValue = {
+    category: "Select Category",
+    sub_category: "Select Sub Category",
+    country: "Select Country",
+    campaign_name: "",
+    goal: "",
+    campaign_length: "",
+    description: "",
+  };
+
+  const [predictionCampaign, setPredictionCampaign] = useState(defaultValue);
+  const [errors, setErrors] = useState({
+    category: "",
+    sub_category: "",
+    country: "",
+    campaign_name: "",
+    goal: "",
+    campaign_length: "",
+    description: "",
+  });
 
   const { campaign, createCampaign } = useContext(KickStartContext);
-
+  const [buttonDisabled, setButtonDisabled] = useState(true);
   const [listOfSubCategories, setListOfSubCategories] = useState([]);
   const [subCategoryDisabled, setSubCategoryDisabled] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const campaignNew = {
-      campaign_name,
-      goal,
-      description,
-      campaign_length,
-      category,
-      sub_category,
-      country,
+      campaign_name: predictionCampaign.campaign_name,
+      goal: predictionCampaign.goal,
+      description: predictionCampaign.description,
+      campaign_length: predictionCampaign.campaign_length,
+      category: predictionCampaign.category,
+      sub_category: predictionCampaign.sub_category,
+      country: predictionCampaign.country,
       user_id: userId.id,
     };
     createCampaign(campaignNew);
   };
 
   useEffect(() => {
-    setSubCategory("Select Sub Category");
+    setPredictionCampaign({
+      ...predictionCampaign,
+      sub_category: "Select Sub Category",
+    });
 
-    if (category === "Select Category") setSubCategoryDisabled(true);
-    else if (category === "Art") {
+    if (predictionCampaign.category === "Select Category")
+      setSubCategoryDisabled(true);
+    else if (predictionCampaign.category === "Art") {
       setSubCategoryDisabled(false);
       setListOfSubCategories([
         "Ceramics",
@@ -57,7 +74,7 @@ const PredictionForm = () => {
         "Textiles",
         "Video Art",
       ]);
-    } else if (category === "Comics") {
+    } else if (predictionCampaign.category === "Comics") {
       setSubCategoryDisabled(false);
       setListOfSubCategories([
         "Anthologies",
@@ -66,7 +83,7 @@ const PredictionForm = () => {
         "Graphic Novels",
         "Webcomics",
       ]);
-    } else if (category === "Crafts") {
+    } else if (predictionCampaign.category === "Crafts") {
       setSubCategoryDisabled(false);
       setListOfSubCategories([
         "Candles",
@@ -83,7 +100,7 @@ const PredictionForm = () => {
         "Weaving",
         "Woodworking",
       ]);
-    } else if (category === "Dance") {
+    } else if (predictionCampaign.category === "Dance") {
       setSubCategoryDisabled(false);
       setListOfSubCategories([
         "Performances",
@@ -91,7 +108,7 @@ const PredictionForm = () => {
         "Spaces",
         "Workshops",
       ]);
-    } else if (category === "Design") {
+    } else if (predictionCampaign.category === "Design") {
       setSubCategoryDisabled(false);
       setListOfSubCategories([
         "Architecture",
@@ -102,7 +119,7 @@ const PredictionForm = () => {
         "Toys",
         "Typography",
       ]);
-    } else if (category === "Fashion") {
+    } else if (predictionCampaign.category === "Fashion") {
       setSubCategoryDisabled(false);
       setListOfSubCategories([
         "Accessories",
@@ -114,7 +131,7 @@ const PredictionForm = () => {
         "Pet Fashion",
         "Ready-to-wear",
       ]);
-    } else if (category === "Film & Video") {
+    } else if (predictionCampaign.category === "Film & Video") {
       setSubCategoryDisabled(false);
       setListOfSubCategories([
         "Action",
@@ -137,7 +154,7 @@ const PredictionForm = () => {
         "Thrillers",
         "Webseries",
       ]);
-    } else if (category === "Food") {
+    } else if (predictionCampaign.category === "Food") {
       setSubCategoryDisabled(false);
       setListOfSubCategories([
         "Bacon",
@@ -153,7 +170,7 @@ const PredictionForm = () => {
         "Spaces",
         "Vegan",
       ]);
-    } else if (category === "Games") {
+    } else if (predictionCampaign.category === "Games") {
       setSubCategoryDisabled(false);
       setListOfSubCategories([
         "Gaming Hardware",
@@ -164,10 +181,10 @@ const PredictionForm = () => {
         "Tabletop Games",
         "Video Games",
       ]);
-    } else if (category === "Journalism") {
+    } else if (predictionCampaign.category === "Journalism") {
       setSubCategoryDisabled(false);
       setListOfSubCategories(["Audio", "Photo", "Print", "Video", "Web"]);
-    } else if (category === "Music") {
+    } else if (predictionCampaign.category === "Music") {
       setSubCategoryDisabled(false);
       setListOfSubCategories([
         "Blues",
@@ -189,7 +206,7 @@ const PredictionForm = () => {
         "Rock",
         "World Music",
       ]);
-    } else if (category === "Photography") {
+    } else if (predictionCampaign.category === "Photography") {
       setSubCategoryDisabled(false);
       setListOfSubCategories([
         "Animals",
@@ -199,7 +216,7 @@ const PredictionForm = () => {
         "Photobooks",
         "Places",
       ]);
-    } else if (category === "Publishing") {
+    } else if (predictionCampaign.category === "Publishing") {
       setSubCategoryDisabled(false);
       setListOfSubCategories([
         "Academic",
@@ -220,7 +237,7 @@ const PredictionForm = () => {
         "Young Adult",
         "Zines",
       ]);
-    } else if (category === "Technology") {
+    } else if (predictionCampaign.category === "Technology") {
       setSubCategoryDisabled(false);
       setListOfSubCategories([
         "3D Printing",
@@ -239,7 +256,7 @@ const PredictionForm = () => {
         "Wearables",
         "Web",
       ]);
-    } else if (category === "Theater") {
+    } else if (predictionCampaign.category === "Theater") {
       setSubCategoryDisabled(false);
       setListOfSubCategories([
         "Comedy",
@@ -251,69 +268,66 @@ const PredictionForm = () => {
         "Spaces",
       ]);
     }
-  }, [category]);
+  }, [predictionCampaign.category]);
 
-  // let schema = yup.object().shape({
-  //   name: yup.string().min(2).required("Enter a campaign name"),
-  //   goal: yup
-  //     .number()
-  //     .typeError("Enter a number")
-  //     .moreThan(0, "Goal has to be more than $0")
-  //     .required("Enter a monetary goal"),
-  //   length: yup
-  //     .number()
-  //     .typeError("Enter a number")
-  //     .integer("Has to be an integer")
-  //     .moreThan(0, "Length has to be more than 0")
-  //     .required("Enter a campaign length"),
-  //   category: yup
-  //     .string()
-  //     .ensure("Can't be empty")
-  //     .required("Select a Category"),
-  //   description: yup
-  //     .string()
-  //     .ensure("Can't be empty")
-  //     .required("Enter a description"),
-  // });
+  let schema = yup.object().shape({
+    campaign_name: yup
+      .string()
+      .min(2, "Can't be less than 2 characters")
+      .required("Enter a campaign name"),
+    goal: yup
+      .number()
+      .typeError("Enter a number")
+      .moreThan(0, "Goal has to be more than $0")
+      .required("Enter a monetary goal in $"),
+    campaign_length: yup
+      .number()
+      .typeError("Enter a number")
+      .integer("Has to be an integer")
+      .moreThan(0, "Length has to be more than 0")
+      .lessThan(161, "Can't be more than 160 days")
+      .required("Enter a campaign length"),
+    category: yup
+      .string()
+      .ensure("Can't be empty")
+      .required("Select a Category"),
+    sub_category: yup
+      .string()
+      .ensure("Can't be empty")
+      .required("Select a Sub Category"),
+    country: yup.string().ensure("Can't be empty").required("Select a Country"),
+    description: yup
+      .string()
+      .ensure("Can't be empty")
+      .min(2, "Can't be less than 2 characters")
+      .max(201, "Can't be more than 200 characters")
+      .required("Enter a Description"),
+  });
 
-  // useEffect(() => {
-  //   schema.isValid(prediction).then((valid) => {
-  //     setButtonDisabled(!valid);
-  //   });
-  // }, [prediction]);
+  useEffect(() => {
+    schema.isValid(predictionCampaign).then((valid) => {
+      setButtonDisabled(!valid);
+    });
+  }, [predictionCampaign]);
 
-  // const handleChange = (e) => {
-  //   setPrediction({
-  //     ...prediction,
-  //     [e.target.name]: e.target.value,
-  //   });
-  //   validateForm(e);
-  // };
+  const handleChange = (e) => {
+    setPredictionCampaign({
+      ...predictionCampaign,
+      [e.target.name]: e.target.value,
+    });
+    validateForm(e);
+  };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   setPrediction(defaultValue);
-  //   history.push("/");
-
-  //demo Axios request
-  //   axios
-  //     .post("https://reqres.in/api/users", prediction)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
-
-  // const validateForm = (e) => {
-  //   e.persist();
-  //   yup
-  //     .reach(schema, e.target.name)
-  //     .validate(e.target.value)
-  //     .then((valid) => setErrors({ ...errors, [e.target.name]: "" }))
-  //     .catch((error) => {
-  //       setErrors({ ...errors, [e.target.name]: error.errors[0] });
-  //     });
-  // };
+  const validateForm = (e) => {
+    e.persist();
+    yup
+      .reach(schema, e.target.name)
+      .validate(e.target.value)
+      .then((valid) => setErrors({ ...errors, [e.target.name]: "" }))
+      .catch((error) => {
+        setErrors({ ...errors, [e.target.name]: error.errors[0] });
+      });
+  };
 
   return (
     <div className="Prediction__Component">
@@ -321,38 +335,41 @@ const PredictionForm = () => {
         <h3 className="Component__Title">Campaign Prediction</h3>
         <form className="Prediction__Form" onSubmit={handleSubmit}>
           <input
-            name="name"
-            value={campaign_name}
+            name="campaign_name"
+            value={predictionCampaign.campaign_name}
             type="text"
             placeholder="Campaign Name"
-            onChange={(e) => setCampaignName(e.target.value)}
+            onChange={handleChange}
           />
-          {/* <p className="errors">{errors.name}</p> */}
+          <p className="errors">{errors.campaign_name}</p>
           <input
             name="goal"
-            value={goal}
+            value={predictionCampaign.goal}
             type="text"
             placeholder="Monetary Goal ($)"
-            onChange={(e) => setGoal(e.target.value)}
+            onChange={handleChange}
           />
-          {/* <p className="errors">{errors.goal}</p> */}
+          <p className="errors">{errors.goal}</p>
           <input
-            name="length"
-            value={campaign_length}
+            name="campaign_length"
+            value={predictionCampaign.campaign_length}
             type="text"
             placeholder="Campaign Length (Days)"
-            onChange={(e) => setCampaignLength(e.target.value)}
+            onChange={handleChange}
           />
-          {/* <p className="errors">{errors.length}</p> */}
+          <p className="errors">{errors.campaign_length}</p>
           <select
             name="category"
-            value={category}
+            value={predictionCampaign.category}
             multiple={false}
             className="Categories"
             style={{
-              color: category === "Select Category" ? "gray" : "#282828",
+              color:
+                predictionCampaign.category === "Select Category"
+                  ? "gray"
+                  : "#282828",
             }}
-            onChange={(e) => setCategory(e.target.value)}
+            onChange={handleChange}
           >
             <option disabled defaultValue="Select Category">
               Select Category
@@ -372,18 +389,20 @@ const PredictionForm = () => {
             <option value="Technology">Technology</option>
             <option value="Theater">Theater</option>
           </select>
-          {/* <p className="errors">{errors.category}</p> */}
+          <p className="errors">{errors.category}</p>
           <select
-            name="subCategory"
+            name="sub_category"
             disabled={subCategoryDisabled}
-            value={sub_category}
+            value={predictionCampaign.sub_category}
             multiple={false}
             className="Categories"
             style={{
               color:
-                sub_category === "Select Sub Category" ? "gray" : "#282828",
+                predictionCampaign.sub_category === "Select Sub Category"
+                  ? "gray"
+                  : "#282828",
             }}
-            onChange={(e) => setSubCategory(e.target.value)}
+            onChange={handleChange}
           >
             <option disabled defaultValue="Select Sub Category">
               Select Sub Category
@@ -396,15 +415,19 @@ const PredictionForm = () => {
               );
             })}
           </select>
+          <p className="errors">{errors.sub_category}</p>
           <select
             name="country"
-            value={country}
+            value={predictionCampaign.country}
             multiple={false}
             className="Categories"
             style={{
-              color: country === "Select Country" ? "gray" : "#282828",
+              color:
+                predictionCampaign.country === "Select Country"
+                  ? "gray"
+                  : "#282828",
             }}
-            onChange={(e) => SetCountry(e.target.value)}
+            onChange={handleChange}
           >
             <option disabled defaultValue="Select Country">
               Select Country
@@ -432,15 +455,16 @@ const PredictionForm = () => {
             <option value="the United Kingdom">United Kingdom</option>
             <option value="the United States">United States</option>
           </select>
+          <p className="errors">{errors.country}</p>
           <textarea
             name="description"
-            value={description}
+            value={predictionCampaign.description}
             placeholder="Campaign Description"
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={handleChange}
           />
-          {/* <p className="errors">{errors.description}</p> */}
+          <p className="errors">{errors.description}</p>
           <button
-            // disabled={buttonDisabled}
+            disabled={buttonDisabled}
             className="Submit__Btn"
             type="submit"
           >
