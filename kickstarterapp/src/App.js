@@ -23,7 +23,9 @@ function App() {
             <LoginForm setLoggedUser={setLoggedUser} />
           </Route>
           <Route path="/signup" component={SignUpForm} />
-          <User exact path="/user/:id" component={UserContent} />
+          <User exact path="/user/:id">
+            <UserContent user={loggedUser} />
+          </User>
           <User exact path="/user/:id/prediction" component={PredictionForm} />
           <Route exact path="/">
             <LoginForm setLoggedUser={setLoggedUser} />

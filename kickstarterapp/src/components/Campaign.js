@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { axiosWithAuth } from "../utils";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -13,9 +21,8 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import ThumbUpIcon from "@material-ui/icons/ThumbUp";
-import ThumbDownIcon from "@material-ui/icons/ThumbDown";
-import { useParams } from "react-router-dom";
+import ShareIcon from "@material-ui/icons/Share";
+import emailjs from "emailjs-com";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,7 +56,7 @@ var formatter = new Intl.NumberFormat("en-US", {
   //maximumFractionDigits: 0,
 });
 
-const Campaign = ({ campaign }) => {
+const Campaign = ({ campaign, user }) => {
   const user_id = useParams();
   const [prediction, setPrediction] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -107,7 +114,7 @@ const Campaign = ({ campaign }) => {
         setPrediction(null);
         setLoading(false);
       });
-  }, [campaign]);
+  }, [campaign, user_id]);
 
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
@@ -116,97 +123,173 @@ const Campaign = ({ campaign }) => {
     setExpanded(!expanded);
   };
 
+  const [open, setOpen] = useState(false);
+  const [email, setEmail] = useState("");
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleShare = (e) => {
+    e.preventDefault();
+    setOpen(false);
+
+    emailjs
+      .send(
+        "service_wi0ojgd",
+        "template_o7oecvf",
+        {
+          user_email: email,
+          from_name: user.name.charAt(0).toUpperCase() + user.name.slice(1),
+          campaign_name: campaign.campaign_name,
+          goal: campaign.goal,
+          campaign_length: campaign.campaign_length,
+          category: campaign.category,
+          sub_category: campaign.sub_category,
+          country: campaign.country,
+          description: campaign.description,
+          result: prediction === 1 ? "succeed" : "fail",
+        },
+        "user_t5U2zwLE4BYDHBMaJje7o"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
+
+  const handleChange = (e) => {
+    setEmail(e.target.value);
+  };
+
   return (
-    <Card className={classes.root}>
-      <CardHeader
-        title={renderStatusMessage()}
-        style={{
-          backgroundColor: renderStatusBackgroundColor(),
-          color: "white",
-          textAlign: "center",
-        }}
-      />
-      {
-        <CardMedia
-          className={classes.media}
-          image={renderStatusImage()}
-          title="Prediction"
+    <div>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Share this Campaign</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please enter an email address to share this campaign.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Email Address"
+            type="email"
+            fullWidth
+            value={email}
+            onChange={handleChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleShare} color="primary">
+            Send
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Card className={classes.root}>
+        <CardHeader
+          title={renderStatusMessage()}
+          style={{
+            backgroundColor: renderStatusBackgroundColor(),
+            color: "white",
+            textAlign: "center",
+          }}
         />
-      }
-      <CardHeader title={campaign.campaign_name} />
-      <CardContent>
-        <Typography
-          style={{ paddingBottom: "15px" }}
-          variant="body2"
-          color="textSecondary"
-          component="p"
-        >
-          Monetary Goal: {formatter.format(campaign.goal)}
-        </Typography>
-        <Typography
-          style={{ paddingBottom: "15px" }}
-          variant="body2"
-          color="textSecondary"
-          component="p"
-        >
-          Campaign Length: {campaign.campaign_length}
-        </Typography>
-        <Typography
-          style={{ paddingBottom: "15px" }}
-          variant="body2"
-          color="textSecondary"
-          component="p"
-        >
-          Category: {campaign.category}
-        </Typography>
-        <Typography
-          style={{ paddingBottom: "15px" }}
-          variant="body2"
-          color="textSecondary"
-          component="p"
-        >
-          Sub Category: {campaign.sub_category}
-        </Typography>
-        <Typography
-          style={{ paddingBottom: "15px" }}
-          variant="body2"
-          color="textSecondary"
-          component="p"
-        >
-          Country: {campaign.country}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="Edit">
-          <EditIcon />
-        </IconButton>
-        <IconButton aria-label="Delete">
-          <DeleteIcon />
-        </IconButton>
-        {/* <IconButton aria-label="">
-            <ThumbUpIcon style={{ color: "#028858" }} />
-          </IconButton>
-          <IconButton aria-label="">
-            <ThumbDownIcon style={{ color: "red" }} />
-          </IconButton> */}
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        {
+          <CardMedia
+            className={classes.media}
+            image={renderStatusImage()}
+            title="Prediction"
+          />
+        }
+        <CardHeader title={campaign.campaign_name} />
         <CardContent>
-          <Typography paragraph>Description:</Typography>
-          <Typography paragraph>{campaign.description}</Typography>
+          <Typography
+            style={{ paddingBottom: "15px" }}
+            variant="body2"
+            color="textSecondary"
+            component="p"
+          >
+            Monetary Goal: {formatter.format(campaign.goal)}
+          </Typography>
+          <Typography
+            style={{ paddingBottom: "15px" }}
+            variant="body2"
+            color="textSecondary"
+            component="p"
+          >
+            Campaign Length: {campaign.campaign_length}
+          </Typography>
+          <Typography
+            style={{ paddingBottom: "15px" }}
+            variant="body2"
+            color="textSecondary"
+            component="p"
+          >
+            Category: {campaign.category}
+          </Typography>
+          <Typography
+            style={{ paddingBottom: "15px" }}
+            variant="body2"
+            color="textSecondary"
+            component="p"
+          >
+            Sub Category: {campaign.sub_category}
+          </Typography>
+          <Typography
+            style={{ paddingBottom: "15px" }}
+            variant="body2"
+            color="textSecondary"
+            component="p"
+          >
+            Country: {campaign.country}
+          </Typography>
         </CardContent>
-      </Collapse>
-    </Card>
+        <CardActions disableSpacing>
+          <IconButton aria-label="Share" onClick={handleClickOpen}>
+            <ShareIcon />
+          </IconButton>
+          <IconButton aria-label="Edit">
+            <EditIcon />
+          </IconButton>
+          <IconButton aria-label="Delete">
+            <DeleteIcon />
+          </IconButton>
+          <IconButton
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded,
+            })}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <Typography paragraph>Description:</Typography>
+            <Typography paragraph>{campaign.description}</Typography>
+          </CardContent>
+        </Collapse>
+      </Card>
+    </div>
   );
 };
 
