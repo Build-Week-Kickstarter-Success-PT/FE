@@ -23,8 +23,9 @@ const useStyles = makeStyles((theme) => ({
     margin: "25px",
   },
   media: {
-    height: 0,
-    paddingTop: "56.25%", // 16:9
+    height: 200,
+    paddingTop: "70%", // 16:9
+    objectFit: "scale-down",
   },
   expand: {
     transform: "rotate(0deg)",
@@ -71,6 +72,18 @@ const Campaign = ({ campaign }) => {
     return "grey";
   };
 
+  const renderStatusImage = () => {
+    if (!loading) {
+      if (prediction === 1)
+        return "https://images.unsplash.com/photo-1601412436465-922fadda062e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1300&q=80";
+      else if (prediction === 0)
+        return "https://images.unsplash.com/photo-1601412436518-3c690b92b43f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1300&q=80";
+      else
+        return "https://images.unsplash.com/photo-1601412436405-1f0c6b50921f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1300&q=80";
+    }
+    return "grey";
+  };
+
   useEffect(() => {
     axiosWithAuth()
       .post(
@@ -113,11 +126,13 @@ const Campaign = ({ campaign }) => {
           textAlign: "center",
         }}
       />
-      {/* <CardMedia
+      {
+        <CardMedia
           className={classes.media}
-          image="https://images.unsplash.com/photo-1497515114629-f71d768fd07c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1362&q=80"
-          title="Coffee"
-        /> */}
+          image={renderStatusImage()}
+          title="Prediction"
+        />
+      }
       <CardHeader title={campaign.campaign_name} />
       <CardContent>
         <Typography
