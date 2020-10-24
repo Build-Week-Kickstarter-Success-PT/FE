@@ -14,6 +14,7 @@ import EditCampaign from "./components/EditCampaign";
 
 function App() {
   const [loggedUser, setLoggedUser] = useState("");
+  const [selectedCampaign, setSelectedCampaign] = useState({});
 
   return (
     <GlobalProvider>
@@ -25,10 +26,10 @@ function App() {
           </Route>
           <Route path="/signup" component={SignUpForm} />
           <User exact path="/user/:id">
-            <UserContent user={loggedUser} />
+            <UserContent user={loggedUser} setSelectedCampaign={setSelectedCampaign} />
           </User>
           <User exact path="/user/:id/edit">
-            <EditCampaign/>
+            <EditCampaign campaign={selectedCampaign}/>
           </User>
           <User exact path="/user/:id/prediction" component={PredictionForm} />
           <Route exact path="/">
