@@ -50,11 +50,12 @@ const SignUpForm = () => {
       .then((res) => {
         setToken();
         history.push("/login");
-        console.log(res);
+        console.log("Sign up: ", res);
       })
-      .catch((err) =>
-        console.error("bk: SignUp.js: signup: err.message: ", err.message)
-      );
+      .catch((err) => {
+        alert(`Can't Sign up! ${err.apiMessage}`);
+        console.error("bk: SignUp.js: signup: err.message: ", err.message);
+      });
   };
 
   const handleSubmit = (e) => {

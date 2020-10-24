@@ -21,27 +21,39 @@ export const GlobalProvider = ({ children }) => {
     axiosWithAuth()
       .post(`/api/users/${campaign.user_id}/campaigns`, campaign)
       .then((res) => {
-        console.log(res);
+        console.log("Add Response: ", res);
         history.push(`/user/${res.data.user_id}`);
         newCampaign = { ...campaign, campaign_id: res.data.id };
-        console.log("New Campaign: ", newCampaign);
         dispatch({
           type: ADD_CAMPAIGN,
           payload: newCampaign,
         });
       })
-      .catch((err) => console.error("bk: Prediction: Error: ", err.message));
+      .catch((err) => {
+        alert("Can't add a new campaign");
+        console.error("bk: Add Campaign Error: ", err.message);
+      });
   }
 
   function deleteCampaign(campaign) {
-    axiosWithAuth()
+    if(campaign.campaign_id !== 1 && campaign.user_id !== 1)
+    {
+      axiosWithAuth()
       .delete(
         `/api/users/${campaign.user_id}/campaigns/${campaign.campaign_id}`
       )
       .then((res) => {
-        console.log(res);
+        console.log("Delete Response: ", res);
+        dispatch({
+          type: DELETE_CAMPAIGN,
+          payload: campaign.campaign_id,
+        });
       })
-      .catch((err) => console.error("bk: Can't update post: ", err.message));
+      .catch((err) => {
+        alert("Can't delete the campaign");
+        console.error("bk: Can't update post: ", err.message);
+      });
+    }
     dispatch({
       type: DELETE_CAMPAIGN,
       payload: campaign.campaign_id,
@@ -61,13 +73,16 @@ export const GlobalProvider = ({ children }) => {
         country: campaign.country,
       })
       .then((res) => {
-        console.log(res);
+        console.log("Edit Response: ", res);
         dispatch({
           type: EDIT_CAMPAIGN,
           payload: campaign,
         });
       })
-      .catch((err) => console.error("bk: Can't update post: ", err.message));
+      .catch((err) => {
+        alert("Can't edit the campaign");
+        console.error("bk: Can't update post: ", err.message);
+      });
   }
 
   return (

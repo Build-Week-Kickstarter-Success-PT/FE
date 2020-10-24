@@ -118,7 +118,7 @@ const Campaign = ({ campaign, user, setSelectedCampaign }) => {
         setPrediction(null);
         setLoading(false);
       });
-  }, [campaign, user_id]);
+  }, [campaign]);
 
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
