@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useParams, useRouteMatch, NavLink } from "react-router-dom";
 import { axiosWithAuth } from "../utils";
+import { KickStartContext } from "../context";
+
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Button from "@material-ui/core/Button";
@@ -58,8 +60,10 @@ var formatter = new Intl.NumberFormat("en-US", {
 
 const Campaign = ({ campaign, user }) => {
   const user_id = useParams();
+  const urlParams = useRouteMatch();
   const [prediction, setPrediction] = useState(0);
   const [loading, setLoading] = useState(true);
+  const { editCampaign, deleteCampaign } = useContext(KickStartContext);
 
   const renderStatusMessage = () => {
     if (!loading) {
@@ -265,10 +269,18 @@ const Campaign = ({ campaign, user }) => {
           <IconButton aria-label="Share" onClick={handleClickOpen}>
             <ShareIcon />
           </IconButton>
-          <IconButton aria-label="Edit">
-            <EditIcon />
-          </IconButton>
-          <IconButton aria-label="Delete">
+          <NavLink to={`${urlParams.url}/edit`}>
+            <IconButton
+              aria-label="Edit"
+              //onClick={() => editCampaign(campaign)}
+            >
+              <EditIcon />
+            </IconButton>
+          </NavLink>
+          <IconButton
+            aria-label="Delete"
+            onClick={() => deleteCampaign(campaign)}
+          >
             <DeleteIcon />
           </IconButton>
           <IconButton
