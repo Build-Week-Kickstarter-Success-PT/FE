@@ -25,20 +25,26 @@ export function CampaignReducer(state, action) {
     case EDIT_CAMPAIGN:
         console.log("EDIT PAYLOAD :", action.payload);
       const updateCampaign = {
-        ...state.currentCampaign,
-        currentCampaign: action.payload
+        ...state, currentCampaign:action.payload
       };
       console.log("UPDATE :", updateCampaign);
 
       const updatedCampaignIndex = state.campaign.findIndex(
-        (cam) => cam.campaign_id === updateCampaign.campaign_id
+        (cam) => cam.campaign_id === updateCampaign.currentCampaign.campaign_id
       );
 
+      console.log("UPDATE INDEX :", updatedCampaignIndex);
+
       const updatedCam = [
-        ...state.campaign.slice(0, updatedCampaignIndex),
-        updateCampaign,
-        ...state.campaign.slice(updatedCampaignIndex + 1),
+        ...updateCampaign.campaign.slice(0, updatedCampaignIndex),
+        updateCampaign.currentCampaign,
+        ...updateCampaign.campaign.slice(updatedCampaignIndex + 1),
       ];
+
+      console.log("updated Cam :", {
+        currentCampaign: null,
+        campaign: updatedCam,
+      });
 
       return {
         currentCampaign: null,

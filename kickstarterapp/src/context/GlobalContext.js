@@ -40,7 +40,6 @@ export const GlobalProvider = ({ children }) => {
       )
       .then((res) => {
         console.log(res);
-        //history.push(`/user/${campaign.user_id}`)
       })
       .catch((err) => console.error("bk: Can't update post: ", err.message));
     dispatch({
@@ -51,10 +50,25 @@ export const GlobalProvider = ({ children }) => {
 
   function editCampaign(campaign) {
     console.log("Edit Campaign: ", campaign);
-    dispatch({
-      type: EDIT_CAMPAIGN,
-      payload: campaign,
-    });
+    axiosWithAuth()
+    .put(`/api/users/${campaign.user_id}/campaigns/${campaign.campaign_id}`, {
+      campaign_name: campaign.campaign_name,
+      goal: campaign.goal,
+      description: campaign.description,
+      campaign_length: campaign.campaign_length,
+      category: campaign.category,
+      sub_category: campaign.sub_category,
+      country: campaign.sub_category,
+    })
+    .then((res) => {
+      console.log(res);
+      dispatch({
+        type: EDIT_CAMPAIGN,
+        payload: campaign,
+      });
+    })
+    .catch((err) => console.error("bk: Can't update post: ", err.message));
+
   }
 
   return (

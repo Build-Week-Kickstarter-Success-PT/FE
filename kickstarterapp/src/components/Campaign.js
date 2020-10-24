@@ -58,7 +58,7 @@ var formatter = new Intl.NumberFormat("en-US", {
   //maximumFractionDigits: 0,
 });
 
-const Campaign = ({ campaign, user }) => {
+const Campaign = ({ campaign, user, setSelectedCampaign }) => {
   const user_id = useParams();
   const urlParams = useRouteMatch();
   const [prediction, setPrediction] = useState(0);
@@ -272,7 +272,7 @@ const Campaign = ({ campaign, user }) => {
           <NavLink to={`${urlParams.url}/edit`}>
             <IconButton
               aria-label="Edit"
-              //onClick={() => editCampaign(campaign)}
+              onClick={() => setSelectedCampaign(campaign)}
             >
               <EditIcon />
             </IconButton>

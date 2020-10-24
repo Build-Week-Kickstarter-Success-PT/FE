@@ -50,7 +50,7 @@ function UserContent(props) {
         {campaign.map((cam, i) => {
           return (
             <div key={i} style={{ order: campaign.length - i }}>
-              <Campaign campaign={cam} user={props.user} />
+              <Campaign campaign={cam} user={props.user} setSelectedCampaign={props.setSelectedCampaign} />
             </div>
           );
         })}
