@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { NavLink, useParams, useRouteMatch } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { NavLink} from "react-router-dom";
+import { KickStartContext } from "../context";
 import logo from "../logo.png";
 import SearchIcon from "@material-ui/icons/Search";
 import "./Navbar.css";
 
 const Navbar = ({ user }) => {
   const [loggedUser, setLoggedUser] = useState("");
+  const { campaign } = useContext(KickStartContext);
 
   useEffect(() => {
     setLoggedUser(user);
-  }, [user]);
+  }, [user, campaign]);
 
   if (loggedUser !== "") {
     return (

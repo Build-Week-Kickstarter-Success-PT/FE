@@ -1,311 +1,335 @@
-import React, {useState, useContext, useRef, useEffect} from 'react';
-import  {KickStartContext, EDIT_CAMPAIGN } from '../context';
+import React, { useState, useContext, useEffect } from "react";
+import * as yup from "yup";
+import { useHistory, useParams } from "react-router-dom";
+
 import "./PredictionForm.css";
+import { KickStartContext } from "../context";
+
+const PredictionForm = ({campaign}) => {
+  const userId = useParams();
+  const history = useHistory();
 
 
-export default function EditCampaign() {
+  const [predictionCampaign, setPredictionCampaign] = useState(campaign);
+  const [errors, setErrors] = useState({
+    category: "",
+    sub_category: "",
+    country: "",
+    campaign_name: "",
+    goal: "",
+    campaign_length: "",
+    description: "",
+  });
 
-    const {state, dispatch} = useContext(KickStartContext);
-    const [camName, setCamName] = useState(state.currentCampaign.campaign_name)
-    const [camGoal, setGoal] = useState(state.currentCampaign.goal)
-    const [camDescription, setDescription] = useState(state.currentCampaign.description)
-    const [camLength, setCamLength] = useState(state.currentCampaign.campaign_length)
-    const [category, setCategory] = useState(state.currentCampaign.category);
-    const [sub_category, setSubCategory] = useState(state.currentCampaign.sub_category);
-    const [country, setCountry] = useState(state.currentCampaign.country)
-    const [value, setValue] = useState([
-            camName,
-            camGoal,
-            camDescription,
-            camLength,
-            category,
-            sub_category,
-            country
-    ])
-
-    
+  const { editCampaign } = useContext(KickStartContext);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
   const [listOfSubCategories, setListOfSubCategories] = useState([]);
-  const [subCategoryDisabled, setSubCategoryDisabled] = useState(false);
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    editCampaign(predictionCampaign);
+    history.push(`/user/${userId.id}`) 
+  };
 
-    let ref = useRef();
-
-    useEffect(() => {
-
-        ref.current.focus();
+  useEffect(() => {
 
 
-        if (category === "Select Category") setSubCategoryDisabled(true);
-        else if (category === "Art") {
-          setSubCategoryDisabled(false);
-          setListOfSubCategories([
-            "Ceramics",
-            "Conceptual Art",
-            "Digital Art",
-            "Illustration",
-            "Installations",
-            "Mixed Media",
-            "Painting",
-            "Performance Art",
-            "Public Art",
-            "Sculpture",
-            "Social Practice",
-            "Textiles",
-            "Video Art",
-          ]);
-        } else if (category === "Comics") {
-          setSubCategoryDisabled(false);
-          setListOfSubCategories([
-            "Anthologies",
-            "Comic Books",
-            "Events",
-            "Graphic Novels",
-            "Webcomics",
-          ]);
-        } else if (category === "Crafts") {
-          setSubCategoryDisabled(false);
-          setListOfSubCategories([
-            "Candles",
-            "Crochet",
-            "DIY",
-            "Embroidery",
-            "Glass",
-            "Knitting",
-            "Pottery",
-            "Printing",
-            "Quilts",
-            "Stationery",
-            "Taxidermy",
-            "Weaving",
-            "Woodworking",
-          ]);
-        } else if (category === "Dance") {
-          setSubCategoryDisabled(false);
-          setListOfSubCategories([
-            "Performances",
-            "Residences",
-            "Spaces",
-            "Workshops",
-          ]);
-        } else if (category === "Design") {
-          setSubCategoryDisabled(false);
-          setListOfSubCategories([
-            "Architecture",
-            "Civic Design",
-            "Graphic Design",
-            "Interactive Design",
-            "Product Design",
-            "Toys",
-            "Typography",
-          ]);
-        } else if (category === "Fashion") {
-          setSubCategoryDisabled(false);
-          setListOfSubCategories([
-            "Accessories",
-            "Apparel",
-            "Childrenswear",
-            "Couture",
-            "Footwear",
-            "Jewelry",
-            "Pet Fashion",
-            "Ready-to-wear",
-          ]);
-        } else if (category === "Film & Video") {
-          setSubCategoryDisabled(false);
-          setListOfSubCategories([
-            "Action",
-            "Animation",
-            "Comedy",
-            "Documentary",
-            "Drama",
-            "Experimental",
-            "Family",
-            "Fantasy",
-            "Festivals",
-            "Horror",
-            "Movie Theaters",
-            "Music Videos",
-            "Narrative Film",
-            "Romance",
-            "Science Fiction",
-            "Shorts",
-            "Television",
-            "Thrillers",
-            "Webseries",
-          ]);
-        } else if (category === "Food") {
-          setSubCategoryDisabled(false);
-          setListOfSubCategories([
-            "Bacon",
-            "Community Gardens",
-            "Cookbooks",
-            "Drinks",
-            "Events",
-            "Farmer's Markets",
-            "Farms",
-            "Food Trucks",
-            "Restaurants",
-            "Small Batch",
-            "Spaces",
-            "Vegan",
-          ]);
-        } else if (category === "Games") {
-          setSubCategoryDisabled(false);
-          setListOfSubCategories([
-            "Gaming Hardware",
-            "Live Games",
-            "Mobile Games",
-            "Playing Cards",
-            "Puzzles",
-            "Tabletop Games",
-            "Video Games",
-          ]);
-        } else if (category === "Journalism") {
-          setSubCategoryDisabled(false);
-          setListOfSubCategories(["Audio", "Photo", "Print", "Video", "Web"]);
-        } else if (category === "Music") {
-          setSubCategoryDisabled(false);
-          setListOfSubCategories([
-            "Blues",
-            "Chiptune",
-            "Classical Music",
-            "Comedy",
-            "Country & Folk",
-            "Electronic Music",
-            "Faith",
-            "Hip-Hop",
-            "Indie Rock",
-            "Jazz",
-            "Kids",
-            "Latin",
-            "Metal",
-            "Pop",
-            "Punk",
-            "R&B",
-            "Rock",
-            "World Music",
-          ]);
-        } else if (category === "Photography") {
-          setSubCategoryDisabled(false);
-          setListOfSubCategories([
-            "Animals",
-            "Fine Art",
-            "Nature",
-            "People",
-            "Photobooks",
-            "Places",
-          ]);
-        } else if (category === "Publishing") {
-          setSubCategoryDisabled(false);
-          setListOfSubCategories([
-            "Academic",
-            "Anthologies",
-            "Art Books",
-            "Calendars",
-            "Children's Books",
-            "Comedy",
-            "Fiction",
-            "Letterpress",
-            "Literary Journals",
-            "Literary Spaces",
-            "Nonfiction",
-            "Periodicals",
-            "Poetry",
-            "Radio & Podcasts",
-            "Translations",
-            "Young Adult",
-            "Zines",
-          ]);
-        } else if (category === "Technology") {
-          setSubCategoryDisabled(false);
-          setListOfSubCategories([
-            "3D Printing",
-            "Apps",
-            "Camera Equipment",
-            "DIY Electronics",
-            "Fabrication Tools",
-            "Flight",
-            "Gadgets",
-            "Hardware",
-            "Makerspaces",
-            "Robots",
-            "Software",
-            "Sound",
-            "Space Exploration",
-            "Wearables",
-            "Web",
-          ]);
-        } else if (category === "Theater") {
-          setSubCategoryDisabled(false);
-          setListOfSubCategories([
-            "Comedy",
-            "Experimental",
-            "Festivals",
-            "Immersive",
-            "Musical",
-            "Plays",
-            "Spaces",
-          ]);
-        }
-    
-
-    }, [category])
-
-    const handleChange = (event) => {
-        setValue(event.target.value);
+if (predictionCampaign.category === "Art") {
+      setListOfSubCategories([
+        "Ceramics",
+        "Conceptual Art",
+        "Digital Art",
+        "Illustration",
+        "Installations",
+        "Mixed Media",
+        "Painting",
+        "Performance Art",
+        "Public Art",
+        "Sculpture",
+        "Social Practice",
+        "Textiles",
+        "Video Art",
+      ]);
+    } else if (predictionCampaign.category === "Comics") {
+      setListOfSubCategories([
+        "Anthologies",
+        "Comic Books",
+        "Events",
+        "Graphic Novels",
+        "Webcomics",
+      ]);
+    } else if (predictionCampaign.category === "Crafts") {
+      setListOfSubCategories([
+        "Candles",
+        "Crochet",
+        "DIY",
+        "Embroidery",
+        "Glass",
+        "Knitting",
+        "Pottery",
+        "Printing",
+        "Quilts",
+        "Stationery",
+        "Taxidermy",
+        "Weaving",
+        "Woodworking",
+      ]);
+    } else if (predictionCampaign.category === "Dance") {
+      setListOfSubCategories([
+        "Performances",
+        "Residences",
+        "Spaces",
+        "Workshops",
+      ]);
+    } else if (predictionCampaign.category === "Design") {
+      setListOfSubCategories([
+        "Architecture",
+        "Civic Design",
+        "Graphic Design",
+        "Interactive Design",
+        "Product Design",
+        "Toys",
+        "Typography",
+      ]);
+    } else if (predictionCampaign.category === "Fashion") {
+      setListOfSubCategories([
+        "Accessories",
+        "Apparel",
+        "Childrenswear",
+        "Couture",
+        "Footwear",
+        "Jewelry",
+        "Pet Fashion",
+        "Ready-to-wear",
+      ]);
+    } else if (predictionCampaign.category === "Film & Video") {
+      setListOfSubCategories([
+        "Action",
+        "Animation",
+        "Comedy",
+        "Documentary",
+        "Drama",
+        "Experimental",
+        "Family",
+        "Fantasy",
+        "Festivals",
+        "Horror",
+        "Movie Theaters",
+        "Music Videos",
+        "Narrative Film",
+        "Romance",
+        "Science Fiction",
+        "Shorts",
+        "Television",
+        "Thrillers",
+        "Webseries",
+      ]);
+    } else if (predictionCampaign.category === "Food") {
+      setListOfSubCategories([
+        "Bacon",
+        "Community Gardens",
+        "Cookbooks",
+        "Drinks",
+        "Events",
+        "Farmer's Markets",
+        "Farms",
+        "Food Trucks",
+        "Restaurants",
+        "Small Batch",
+        "Spaces",
+        "Vegan",
+      ]);
+    } else if (predictionCampaign.category === "Games") {
+      setListOfSubCategories([
+        "Gaming Hardware",
+        "Live Games",
+        "Mobile Games",
+        "Playing Cards",
+        "Puzzles",
+        "Tabletop Games",
+        "Video Games",
+      ]);
+    } else if (predictionCampaign.category === "Journalism") {
+      setListOfSubCategories(["Audio", "Photo", "Print", "Video", "Web"]);
+    } else if (predictionCampaign.category === "Music") {
+      setListOfSubCategories([
+        "Blues",
+        "Chiptune",
+        "Classical Music",
+        "Comedy",
+        "Country & Folk",
+        "Electronic Music",
+        "Faith",
+        "Hip-Hop",
+        "Indie Rock",
+        "Jazz",
+        "Kids",
+        "Latin",
+        "Metal",
+        "Pop",
+        "Punk",
+        "R&B",
+        "Rock",
+        "World Music",
+      ]);
+    } else if (predictionCampaign.category === "Photography") {
+      setListOfSubCategories([
+        "Animals",
+        "Fine Art",
+        "Nature",
+        "People",
+        "Photobooks",
+        "Places",
+      ]);
+    } else if (predictionCampaign.category === "Publishing") {
+      setListOfSubCategories([
+        "Academic",
+        "Anthologies",
+        "Art Books",
+        "Calendars",
+        "Children's Books",
+        "Comedy",
+        "Fiction",
+        "Letterpress",
+        "Literary Journals",
+        "Literary Spaces",
+        "Nonfiction",
+        "Periodicals",
+        "Poetry",
+        "Radio & Podcasts",
+        "Translations",
+        "Young Adult",
+        "Zines",
+      ]);
+    } else if (predictionCampaign.category === "Technology") {
+      setListOfSubCategories([
+        "3D Printing",
+        "Apps",
+        "Camera Equipment",
+        "DIY Electronics",
+        "Fabrication Tools",
+        "Flight",
+        "Gadgets",
+        "Hardware",
+        "Makerspaces",
+        "Robots",
+        "Software",
+        "Sound",
+        "Space Exploration",
+        "Wearables",
+        "Web",
+      ]);
+    } else if (predictionCampaign.category === "Theater") {
+      setListOfSubCategories([
+        "Comedy",
+        "Experimental",
+        "Festivals",
+        "Immersive",
+        "Musical",
+        "Plays",
+        "Spaces",
+      ]);
     }
+  }, [predictionCampaign.category]);
 
-    const handleSubmit = (event) => {
+  let schema = yup.object().shape({
+    campaign_name: yup
+      .string()
+      .min(2, "Can't be less than 2 characters")
+      .required("Enter a campaign name"),
+    goal: yup
+      .number()
+      .typeError("Enter a number")
+      .moreThan(0, "Goal has to be more than $0")
+      .required("Enter a monetary goal in $"),
+    campaign_length: yup
+      .number()
+      .typeError("Enter a number")
+      .integer("Has to be an integer")
+      .moreThan(0, "Length has to be more than 0")
+      .lessThan(161, "Can't be more than 160 days")
+      .required("Enter a campaign length"),
+    category: yup
+      .string()
+      .ensure("Can't be empty")
+      .required("Select a Category"),
+    sub_category: yup
+      .string()
+      .ensure("Can't be empty")
+      .required("Select a Sub Category"),
+    country: yup.string().ensure("Can't be empty").required("Select a Country"),
+    description: yup
+      .string()
+      .ensure("Can't be empty")
+      .min(2, "Can't be less than 2 characters")
+      .max(201, "Can't be more than 200 characters")
+      .required("Enter a Description"),
+  });
 
-        event.preventDefault();
+  useEffect(() => {
+    schema.isValid(predictionCampaign).then((valid) => {
+      setButtonDisabled(!valid);
+    });
+  }, [predictionCampaign]);
 
-        if(value === '') {
+  const handleChange = (e) => {
+    setPredictionCampaign({
+      ...predictionCampaign,
+      [e.target.name]: e.target.value,
+    });
+    validateForm(e);
+  };
 
-            alert('Cannot add a blank Comment');
-        }else {
-            dispatch({type: EDIT_CAMPAIGN, payload: value})
-            setValue('')
-        }
-    }
+  const validateForm = (e) => {
+    e.persist();
+    yup
+      .reach(schema, e.target.name)
+      .validate(e.target.value)
+      .then((valid) => setErrors({ ...errors, [e.target.name]: "" }))
+      .catch((error) => {
+        setErrors({ ...errors, [e.target.name]: error.errors[0] });
+      });
+  };
 
-
-    return(
-        <div>
-             <form className="Prediction__Form" onSubmit={handleSubmit}>
+  return (
+    <div className="Prediction__Component">
+      <div className="Prediction__InnerBox">
+        <h3 className="Component__Title">Edit Campaign</h3>
+        <form className="Prediction__Form" onSubmit={handleSubmit}>
           <input
-            name="name"
-            ref={ref}
-            value={camName}
+            name="campaign_name"
+            value={predictionCampaign.campaign_name}
             type="text"
             placeholder="Campaign Name"
             onChange={handleChange}
           />
-          {/* <p className="errors">{errors.name}</p> */}
+          <p className="errors">{errors.campaign_name}</p>
           <input
             name="goal"
-            ref={ref}
-            value={camGoal}
+            value={predictionCampaign.goal}
             type="text"
             placeholder="Monetary Goal ($)"
             onChange={handleChange}
           />
-          {/* <p className="errors">{errors.goal}</p> */}
+          <p className="errors">{errors.goal}</p>
           <input
-            name="length"
-            ref={ref}
-            value={camLength}
+            name="campaign_length"
+            value={predictionCampaign.campaign_length}
             type="text"
             placeholder="Campaign Length (Days)"
             onChange={handleChange}
           />
-          {/* <p className="errors">{errors.length}</p> */}
+          <p className="errors">{errors.campaign_length}</p>
           <select
             name="category"
-            ref={ref}
-            value={category}
+            value={predictionCampaign.category}
             multiple={false}
             className="Categories"
             style={{
-              color: category === "Select Category" ? "gray" : "#282828",
+              color:
+                predictionCampaign.category === "Select Category"
+                  ? "gray"
+                  : "#282828",
             }}
             onChange={handleChange}
           >
@@ -327,17 +351,17 @@ export default function EditCampaign() {
             <option value="Technology">Technology</option>
             <option value="Theater">Theater</option>
           </select>
-          {/* <p className="errors">{errors.category}</p> */}
+          <p className="errors">{errors.category}</p>
           <select
-            name="subCategory"
-            ref={ref}
-            disabled={subCategoryDisabled}
-            value={sub_category}
+            name="sub_category"
+            value={predictionCampaign.sub_category}
             multiple={false}
             className="Categories"
             style={{
               color:
-                sub_category === "Select Sub Category" ? "gray" : "#282828",
+                predictionCampaign.sub_category === "Select Sub Category"
+                  ? "gray"
+                  : "#282828",
             }}
             onChange={handleChange}
           >
@@ -352,14 +376,17 @@ export default function EditCampaign() {
               );
             })}
           </select>
+          <p className="errors">{errors.sub_category}</p>
           <select
             name="country"
-            ref={ref}
-            value={country}
+            value={predictionCampaign.country}
             multiple={false}
             className="Categories"
             style={{
-              color: country === "Select Country" ? "gray" : "#282828",
+              color:
+                predictionCampaign.country === "Select Country"
+                  ? "gray"
+                  : "#282828",
             }}
             onChange={handleChange}
           >
@@ -389,22 +416,25 @@ export default function EditCampaign() {
             <option value="the United Kingdom">United Kingdom</option>
             <option value="the United States">United States</option>
           </select>
+          <p className="errors">{errors.country}</p>
           <textarea
             name="description"
-            ref={ref}
-            value={camDescription}
+            value={predictionCampaign.description}
             placeholder="Campaign Description"
             onChange={handleChange}
           />
-          {/* <p className="errors">{errors.description}</p> */}
+          <p className="errors">{errors.description}</p>
           <button
-            // disabled={buttonDisabled}
+            disabled={buttonDisabled}
             className="Submit__Btn"
             type="submit"
           >
-            Save
+            Save Campaign!
           </button>
         </form>
-        </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
+
+export default PredictionForm;

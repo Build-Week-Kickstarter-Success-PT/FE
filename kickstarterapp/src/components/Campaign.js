@@ -1,9 +1,17 @@
-
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useParams, useRouteMatch, NavLink } from "react-router-dom";
 import { axiosWithAuth } from "../utils";
+import { KickStartContext } from "../context";
 
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -15,17 +23,8 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import ThumbUpIcon from "@material-ui/icons/ThumbUp";
-import ThumbDownIcon from "@material-ui/icons/ThumbDown";
-
-import { Link } from "@material-ui/core";
-
-import {KickStartContext} from '../context';
-import { Route, useRouteMatch } from "react-router-dom";
-import EditCampaign from "./EditCampaign";
-import {axiosWithAuth} from '../utils';
-import userContent from "../pages/userContent";
-
+import ShareIcon from "@material-ui/icons/Share";
+import emailjs from "emailjs-com";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,8 +32,9 @@ const useStyles = makeStyles((theme) => ({
     margin: "25px",
   },
   media: {
-    height: 0,
-    paddingTop: "56.25%", // 16:9
+    height: 200,
+    paddingTop: "70%", // 16:9
+    objectFit: "scale-down",
   },
   expand: {
     transform: "rotate(0deg)",
@@ -58,10 +58,12 @@ var formatter = new Intl.NumberFormat("en-US", {
   //maximumFractionDigits: 0,
 });
 
-const Campaign = ({ campaign }) => {
+const Campaign = ({ campaign, user, setSelectedCampaign }) => {
   const user_id = useParams();
+  const urlParams = useRouteMatch();
   const [prediction, setPrediction] = useState(0);
   const [loading, setLoading] = useState(true);
+  const { editCampaign, deleteCampaign } = useContext(KickStartContext);
 
   const renderStatusMessage = () => {
     if (!loading) {
@@ -77,6 +79,18 @@ const Campaign = ({ campaign }) => {
       if (prediction === 1) return "#028858";
       else if (prediction === 0) return "red";
       else return "purple";
+    }
+    return "grey";
+  };
+
+  const renderStatusImage = () => {
+    if (!loading) {
+      if (prediction === 1)
+        return "https://images.unsplash.com/photo-1601412436465-922fadda062e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1300&q=80";
+      else if (prediction === 0)
+        return "https://images.unsplash.com/photo-1601412436518-3c690b92b43f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1300&q=80";
+      else
+        return "https://images.unsplash.com/photo-1601412436405-1f0c6b50921f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1300&q=80";
     }
     return "grey";
   };
@@ -104,132 +118,190 @@ const Campaign = ({ campaign }) => {
         setPrediction(null);
         setLoading(false);
       });
-  }, [campaign]);
+  }, [campaign, user_id]);
 
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
-
-
-
-
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  const { editCampaign, user_id, campaign_id, dispatch, deleteCampaign} = useContext(KickStartContext);
+  const [open, setOpen] = useState(false);
+  const [email, setEmail] = useState("");
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-  const urlParams = useRouteMatch();
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-  console.log(urlParams);
+  const handleShare = (e) => {
+    e.preventDefault();
+    setOpen(false);
 
+    emailjs
+      .send(
+        "service_wi0ojgd",
+        "template_o7oecvf",
+        {
+          user_email: email,
+          from_name: user.name.charAt(0).toUpperCase() + user.name.slice(1),
+          campaign_name: campaign.campaign_name,
+          goal: campaign.goal,
+          campaign_length: campaign.campaign_length,
+          category: campaign.category,
+          sub_category: campaign.sub_category,
+          country: campaign.country,
+          description: campaign.description,
+          result: prediction === 1 ? "succeed" : "fail",
+        },
+        "user_t5U2zwLE4BYDHBMaJje7o"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
 
-  useEffect(() => {
-    axiosWithAuth()
-    .get(`api/users/${campaign.user_id}/campaigns/${campaign.campaign_id}`)
-    .then(res => {
-        dispatch(res.data);
-        console.log(res.data)
-    })
-    .catch(e => {
-        console.log(e);
-    })
-
-}, [])
-
+  const handleChange = (e) => {
+    setEmail(e.target.value);
+  };
 
   return (
-    <Card className={classes.root}>
-      <CardHeader
-        title={renderStatusMessage()}
-        style={{
-          backgroundColor: renderStatusBackgroundColor(),
-          color: "white",
-          textAlign: "center",
-        }}
-      />
-      {/* <CardMedia
-          className={classes.media}
-          image="https://images.unsplash.com/photo-1497515114629-f71d768fd07c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1362&q=80"
-          title="Coffee"
-        /> */}
-      <CardHeader title={campaign.campaign_name} />
-      <CardContent>
-        <Typography
-          style={{ paddingBottom: "15px" }}
-          variant="body2"
-          color="textSecondary"
-          component="p"
-        >
-          Monetary Goal: {formatter.format(campaign.goal)}
-        </Typography>
-        <Typography
-          style={{ paddingBottom: "15px" }}
-          variant="body2"
-          color="textSecondary"
-          component="p"
-        >
-          Campaign Length: {campaign.campaign_length}
-        </Typography>
-        <Typography
-          style={{ paddingBottom: "15px" }}
-          variant="body2"
-          color="textSecondary"
-          component="p"
-        >
-          Category: {campaign.category}
-        </Typography>
-        <Typography
-          style={{ paddingBottom: "15px" }}
-          variant="body2"
-          color="textSecondary"
-          component="p"
-        >
-          Sub Category: {campaign.sub_category}
-        </Typography>
-        <Typography
-          style={{ paddingBottom: "15px" }}
-          variant="body2"
-          color="textSecondary"
-          component="p"
-        >
-          Country: {campaign.country}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <Route exact path={`${urlParams.path}/campaigns/${campaign.campaign_id}`} component={EditCampaign}/>
-        {console.log(`${urlParams.path}/campaigns/${campaign.campaign_id}`)}
-       <Link to={`${urlParams.url}/campaigns/${campaign.campaign_id}`} onClick={() => editCampaign(campaign)}>  <IconButton aria-label="Edit">
-          <EditIcon />
-        </IconButton></Link>
-        <IconButton aria-label="Delete" onClick={() => deleteCampaign(campaign)}>
-          <DeleteIcon />
-        </IconButton>
-        {/* <IconButton aria-label="">
-            <ThumbUpIcon style={{ color: "#028858" }} />
-          </IconButton>
-          <IconButton aria-label="">
-            <ThumbDownIcon style={{ color: "red" }} />
-          </IconButton> */}
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+    <div>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Share this Campaign</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please enter an email address to share this campaign.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Email Address"
+            type="email"
+            fullWidth
+            value={email}
+            onChange={handleChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleShare} color="primary">
+            Send
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Card className={classes.root}>
+        <CardHeader
+          title={renderStatusMessage()}
+          style={{
+            backgroundColor: renderStatusBackgroundColor(),
+            color: "white",
+            textAlign: "center",
+          }}
+        />
+        {
+          <CardMedia
+            className={classes.media}
+            image={renderStatusImage()}
+            title="Prediction"
+          />
+        }
+        <CardHeader title={campaign.campaign_name} />
         <CardContent>
-          <Typography paragraph>Description:</Typography>
-          <Typography paragraph>{campaign.description}</Typography>
+          <Typography
+            style={{ paddingBottom: "15px" }}
+            variant="body2"
+            color="textSecondary"
+            component="p"
+          >
+            Monetary Goal: {formatter.format(campaign.goal)}
+          </Typography>
+          <Typography
+            style={{ paddingBottom: "15px" }}
+            variant="body2"
+            color="textSecondary"
+            component="p"
+          >
+            Campaign Length: {campaign.campaign_length}
+          </Typography>
+          <Typography
+            style={{ paddingBottom: "15px" }}
+            variant="body2"
+            color="textSecondary"
+            component="p"
+          >
+            Category: {campaign.category}
+          </Typography>
+          <Typography
+            style={{ paddingBottom: "15px" }}
+            variant="body2"
+            color="textSecondary"
+            component="p"
+          >
+            Sub Category: {campaign.sub_category}
+          </Typography>
+          <Typography
+            style={{ paddingBottom: "15px" }}
+            variant="body2"
+            color="textSecondary"
+            component="p"
+          >
+            Country: {campaign.country}
+          </Typography>
         </CardContent>
-      </Collapse>
-    </Card>
+        <CardActions disableSpacing>
+          <IconButton aria-label="Share" onClick={handleClickOpen}>
+            <ShareIcon />
+          </IconButton>
+          <NavLink to={`${urlParams.url}/edit`}>
+            <IconButton
+              aria-label="Edit"
+              onClick={() => setSelectedCampaign(campaign)}
+            >
+              <EditIcon />
+            </IconButton>
+          </NavLink>
+          <IconButton
+            aria-label="Delete"
+            onClick={() => deleteCampaign(campaign)}
+          >
+            <DeleteIcon />
+          </IconButton>
+          <IconButton
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded,
+            })}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <Typography paragraph>Description:</Typography>
+            <Typography paragraph>{campaign.description}</Typography>
+          </CardContent>
+        </Collapse>
+      </Card>
+    </div>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import * as yup from "yup";
-import { Route, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import "./PredictionForm.css";
 import { KickStartContext } from "../context";
@@ -29,7 +29,7 @@ const PredictionForm = () => {
     description: "",
   });
 
-  const { campaign, createCampaign } = useContext(KickStartContext);
+  const { createCampaign } = useContext(KickStartContext);
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [listOfSubCategories, setListOfSubCategories] = useState([]);
   const [subCategoryDisabled, setSubCategoryDisabled] = useState(false);
