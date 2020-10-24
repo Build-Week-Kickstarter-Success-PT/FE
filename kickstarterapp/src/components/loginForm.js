@@ -62,9 +62,10 @@ const LoginForm = (props) => {
         props.setLoggedUser(res.data.auth);
         history.push(`/user/${res.data.auth.id}`);
       })
-      .catch((err) =>
-        console.error("bk: Login.js: login: err.message: ", err.message)
-      );
+      .catch((err) => {
+        alert(`Can't login! ${err.message}`);
+        console.error("bk: Login.js: login: err.message: ", err.message);
+      });
   };
 
   return (
