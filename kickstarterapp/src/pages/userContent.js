@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Link, Route, useParams, useRouteMatch } from "react-router-dom";
-import { axiosWithAuth } from "../utils";
+import React, { useEffect, useContext } from "react";
+import { Link, Route, useRouteMatch } from "react-router-dom";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import gsap from "gsap";
 import "./userContent.css";
@@ -11,20 +10,8 @@ import { KickStartContext } from "../context";
 import Campaign from "../components/Campaign";
 
 function UserContent(props) {
-  const [campaign, setCampaign] = useState([]);
-  const { state, dispatch } = useContext(KickStartContext);
-
-  const user_id = useParams();
+  const { campaign } = useContext(KickStartContext);
   const urlParams = useRouteMatch();
-
-  useEffect(() => {
-    axiosWithAuth()
-      .get(`/api/users/${user_id.id}/campaigns`)
-      .then((res) => {
-        setCampaign(res.data);
-      })
-      .catch((error) => console.log("Unable to fetch data: ", error));
-  }, []);
 
   useEffect(() => {
     gsap.to(".Add__Button", {
@@ -63,7 +50,6 @@ function UserContent(props) {
         {campaign.map((cam, i) => {
           return (
             <div key={i} style={{ order: campaign.length - i }}>
-              {/* <pre>{JSON.stringify(cam, null, 2)}</pre> */}
               <Campaign campaign={cam} user={props.user} />
             </div>
           );
